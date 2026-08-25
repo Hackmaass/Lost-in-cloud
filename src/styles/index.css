@@ -1,0 +1,245 @@
+/* ============================================
+   LOST IN THE CLOUD — Design System
+   ============================================ */
+
+:root {
+  /* ---- Base Palette ---- */
+  --color-void:       #050508;
+  --color-black:      #0a0a0f;
+  --color-charcoal:   #141420;
+  --color-graphite:   #1c1c2e;
+  --color-slate:      #2a2a3d;
+  --color-steel:      #3a3a52;
+  --color-ash:        #5a5a72;
+  --color-mist:       #8a8aa2;
+  --color-cloud:      #b8b8cc;
+  --color-light:      #e0e0ee;
+  --color-white:      #f0f0f8;
+
+  /* ---- Semantic Accents ---- */
+  --color-primary:    #ff9900;   /* AWS Orange — primary action */
+  --color-primary-dim:#cc7a00;
+  --color-primary-glow: rgba(255, 153, 0, 0.15);
+  --color-blue:       #00d4ff;   /* Electric blue — infrastructure */
+  --color-blue-dim:   #0099bb;
+  --color-blue-glow:  rgba(0, 212, 255, 0.1);
+  --color-danger:     #ff3b3b;   /* Red — incident / danger */
+  --color-danger-dim: #cc2e2e;
+  --color-danger-glow:rgba(255, 59, 59, 0.12);
+  --color-warning:    #ffb347;   /* Amber — warning */
+  --color-warning-dim:#cc8f39;
+  --color-success:    #00e676;   /* Green — healthy / success */
+  --color-success-dim:#00b35c;
+  --color-purple:     #a855f7;   /* Purple — achievement / special */
+
+  /* ---- Surfaces ---- */
+  --surface-base:     var(--color-black);
+  --surface-panel:    var(--color-charcoal);
+  --surface-elevated: var(--color-graphite);
+  --surface-overlay:  rgba(10, 10, 15, 0.92);
+  --surface-glass:    rgba(20, 20, 32, 0.65);
+  --surface-glass-border: rgba(255, 255, 255, 0.06);
+
+  /* ---- Borders ---- */
+  --border-subtle:    rgba(255, 255, 255, 0.04);
+  --border-default:   rgba(255, 255, 255, 0.08);
+  --border-strong:    rgba(255, 255, 255, 0.14);
+
+  /* ---- Shadows ---- */
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md:  0 4px 12px rgba(0,0,0,0.5);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.6);
+  --shadow-glow-primary: 0 0 20px rgba(255, 153, 0, 0.2);
+  --shadow-glow-blue:    0 0 20px rgba(0, 212, 255, 0.15);
+  --shadow-glow-danger:  0 0 20px rgba(255, 59, 59, 0.15);
+
+  /* ---- Spacing ---- */
+  --space-xs:   4px;
+  --space-sm:   8px;
+  --space-md:   16px;
+  --space-lg:   24px;
+  --space-xl:   32px;
+  --space-2xl:  48px;
+  --space-3xl:  64px;
+  --space-4xl:  96px;
+
+  /* ---- Border Radius ---- */
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
+  --radius-full: 9999px;
+
+  /* ---- Z-Index Scale ---- */
+  --z-base:      0;
+  --z-panel:     10;
+  --z-terminal:  20;
+  --z-nav:       30;
+  --z-modal:     40;
+  --z-cinematic: 50;
+  --z-overlay:   60;
+
+  /* ---- Transitions ---- */
+  --ease-smooth:  cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-cinematic: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --duration-fast:   150ms;
+  --duration-normal: 300ms;
+  --duration-slow:   500ms;
+  --duration-cinematic: 800ms;
+}
+
+/* ---- Global Reset ---- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--color-black);
+  color: var(--color-cloud);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-steel);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ash);
+}
+
+/* ---- Selection ---- */
+::selection {
+  background: rgba(255, 153, 0, 0.3);
+  color: var(--color-white);
+}
+
+/* ---- Links ---- */
+a {
+  color: var(--color-blue);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+a:hover {
+  color: var(--color-primary);
+}
+
+/* ---- Utility Classes ---- */
+.glass-panel {
+  background: var(--surface-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--surface-glass-border);
+  border-radius: var(--radius-lg);
+}
+
+.glow-primary {
+  box-shadow: var(--shadow-glow-primary);
+}
+
+.glow-blue {
+  box-shadow: var(--shadow-glow-blue);
+}
+
+.text-primary { color: var(--color-primary); }
+.text-blue    { color: var(--color-blue); }
+.text-danger  { color: var(--color-danger); }
+.text-warning { color: var(--color-warning); }
+.text-success { color: var(--color-success); }
+.text-muted   { color: var(--color-mist); }
+.text-dim     { color: var(--color-ash); }
+
+/* ---- Workspace Layout ---- */
+.workspace-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr 300px;
+  grid-template-rows: 1fr auto;
+  height: 100vh;
+  gap: 1px;
+  background: var(--border-subtle);
+}
+
+.workspace-grid .left-panel {
+  grid-row: 1;
+  grid-column: 1;
+  background: var(--surface-panel);
+  overflow-y: auto;
+}
+
+.workspace-grid .center-panel {
+  grid-row: 1;
+  grid-column: 2;
+  background: var(--surface-base);
+  overflow-y: auto;
+}
+
+.workspace-grid .right-panel {
+  grid-row: 1;
+  grid-column: 3;
+  background: var(--surface-panel);
+  overflow-y: auto;
+}
+
+.workspace-grid .terminal-panel {
+  grid-row: 2;
+  grid-column: 1 / -1;
+  background: var(--color-void);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1200px) {
+  .workspace-grid {
+    grid-template-columns: 240px 1fr 260px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .workspace-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+  }
+  .workspace-grid .left-panel,
+  .workspace-grid .right-panel {
+    display: none;
+  }
+  .workspace-grid .center-panel {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .workspace-grid .terminal-panel {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    font-size: 14px;
+  }
+}

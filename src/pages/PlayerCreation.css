@@ -1,0 +1,300 @@
+/* ============================================
+   LOST IN THE CLOUD — Player Creation Styles
+   ============================================ */
+
+.player-creation {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-void);
+  overflow: hidden;
+}
+
+.player-creation__bg-pattern {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(255, 153, 0, 0.03) 0%, transparent 50%);
+}
+
+/* ---- Form Card ---- */
+.player-creation__card {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  background: var(--surface-panel);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl);
+  box-shadow: var(--shadow-lg);
+}
+
+.player-creation__header {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+.player-creation__company {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--color-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.player-creation__dept {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--color-ash);
+}
+
+.player-creation__divider {
+  height: 1px;
+  background: var(--border-default);
+  margin-bottom: var(--space-xl);
+}
+
+/* ---- Form ---- */
+.player-creation__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.player-creation__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.player-creation__label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--color-mist);
+}
+
+.player-creation__optional {
+  color: var(--color-steel);
+  font-weight: 400;
+}
+
+.player-creation__input {
+  background: var(--color-void);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  color: var(--color-white);
+  outline: none;
+  transition: border-color var(--duration-fast) var(--ease-smooth),
+              box-shadow var(--duration-fast) var(--ease-smooth);
+}
+
+.player-creation__input::placeholder {
+  color: var(--color-steel);
+}
+
+.player-creation__input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.1);
+}
+
+/* ---- Avatars ---- */
+.player-creation__avatars {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.player-creation__avatar {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  background: var(--color-void);
+  border: 2px solid var(--border-default);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+
+.player-creation__avatar:hover {
+  border-color: var(--color-mist);
+  transform: translateY(-2px);
+}
+
+.player-creation__avatar--selected {
+  border-color: var(--color-primary);
+  background: rgba(255, 153, 0, 0.08);
+  box-shadow: 0 0 12px rgba(255, 153, 0, 0.15);
+}
+
+/* ---- Submit ---- */
+.player-creation__submit {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, var(--color-primary), #e68a00);
+  color: var(--color-void);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-smooth);
+  margin-top: var(--space-sm);
+}
+
+.player-creation__submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow-primary);
+}
+
+.player-creation__submit:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---- Employee Record Card ---- */
+.player-creation__record {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xl);
+  opacity: 0;
+  transform: scale(0.95) translateY(20px);
+  transition: opacity 1s var(--ease-cinematic), transform 1s var(--ease-cinematic);
+}
+
+.player-creation__record--visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.player-creation__record-card {
+  position: relative;
+  width: 380px;
+  max-width: 90vw;
+  background: var(--surface-panel);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl);
+  box-shadow: var(--shadow-lg), 0 0 60px rgba(255, 153, 0, 0.06);
+  overflow: hidden;
+}
+
+.player-creation__record-stripe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-blue), var(--color-primary));
+}
+
+.player-creation__record-header {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+.player-creation__record-company {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  color: var(--color-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.player-creation__record-dept {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--color-ash);
+}
+
+.player-creation__record-divider {
+  height: 1px;
+  background: var(--border-default);
+  margin-bottom: var(--space-lg);
+}
+
+.player-creation__record-avatar {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: var(--space-lg);
+}
+
+.player-creation__record-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.player-creation__record-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.player-creation__record-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--color-ash);
+}
+
+.player-creation__record-value {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  color: var(--color-white);
+}
+
+.player-creation__record-value--active {
+  color: var(--color-success);
+}
+
+.player-creation__record-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--color-steel);
+  text-align: center;
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* ---- Report Button ---- */
+.player-creation__report-btn {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  padding: 16px 48px;
+  background: linear-gradient(135deg, var(--color-primary), #e68a00);
+  color: var(--color-void);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-smooth);
+  box-shadow: var(--shadow-glow-primary);
+}
+
+.player-creation__report-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 50px rgba(255, 153, 0, 0.4);
+}

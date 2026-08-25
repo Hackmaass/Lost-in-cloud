@@ -1,0 +1,75 @@
+/* ============================================
+   LOST IN THE CLOUD — Game Workspace Styles
+   ============================================ */
+
+.game-workspace {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-black);
+  overflow: hidden;
+}
+
+.game-workspace .workspace-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 280px 1fr 300px;
+  grid-template-rows: 1fr auto;
+  gap: 1px;
+  background: var(--border-subtle);
+  overflow: hidden;
+}
+
+/* Mobile tabs - hidden on desktop */
+.mobile-tabs {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .game-workspace .workspace-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+  }
+
+  .game-workspace .left-panel,
+  .game-workspace .right-panel {
+    display: none;
+  }
+
+  .game-workspace .left-panel.mobile-visible,
+  .game-workspace .right-panel.mobile-visible {
+    display: block;
+    position: fixed;
+    top: 48px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-panel);
+  }
+
+  .mobile-tabs {
+    display: flex;
+    background: var(--surface-panel);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .mobile-tab {
+    flex: 1;
+    padding: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--color-ash);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color var(--duration-fast) var(--ease-smooth);
+  }
+
+  .mobile-tab--active {
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-primary);
+  }
+}

@@ -1,0 +1,187 @@
+/* ============================================
+   LOST IN THE CLOUD — Right Panel Styles
+   ============================================ */
+
+.rpanel {
+  padding: var(--space-md);
+  height: 100%;
+  overflow-y: auto;
+  background: var(--surface-panel);
+}
+
+.rpanel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.rpanel__header-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--color-mist);
+}
+
+.rpanel__unread {
+  background: var(--color-danger);
+  color: var(--color-white);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+}
+
+.rpanel__divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: var(--space-md) 0;
+}
+
+/* ---- Sections ---- */
+.rpanel__section {
+  margin-bottom: var(--space-xs);
+}
+
+.rpanel__section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--color-steel);
+  margin-bottom: var(--space-sm);
+}
+
+/* ---- Status Grid ---- */
+.rpanel__status-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rpanel__status-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 5px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.7rem;
+}
+
+.rpanel__status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.rpanel__status-item.status--online .rpanel__status-dot {
+  background: var(--color-success);
+  box-shadow: 0 0 6px rgba(0, 230, 118, 0.4);
+}
+
+.rpanel__status-item.status--warning .rpanel__status-dot {
+  background: var(--color-warning);
+  box-shadow: 0 0 6px rgba(255, 179, 71, 0.4);
+}
+
+.rpanel__status-item.status--danger .rpanel__status-dot {
+  background: var(--color-danger);
+  box-shadow: 0 0 6px rgba(255, 59, 59, 0.4);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.rpanel__status-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  color: var(--color-cloud);
+  flex: 1;
+}
+
+.rpanel__status-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+}
+
+.rpanel__status-item.status--online .rpanel__status-value { color: var(--color-success); }
+.rpanel__status-item.status--warning .rpanel__status-value { color: var(--color-warning); }
+.rpanel__status-item.status--danger .rpanel__status-value { color: var(--color-danger); }
+
+/* ---- Messages ---- */
+.rpanel__messages {
+  flex: 1;
+}
+
+.rpanel__message-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.rpanel__message {
+  padding: 10px 12px;
+  background: var(--surface-elevated);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  transition: border-color var(--duration-fast) var(--ease-smooth);
+}
+
+.rpanel__message--unread {
+  border-color: rgba(255, 153, 0, 0.2);
+  background: rgba(255, 153, 0, 0.03);
+}
+
+.rpanel__message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.rpanel__message-sender {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+}
+
+.rpanel__message-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--color-steel);
+}
+
+.rpanel__message-text {
+  font-size: 0.75rem;
+  color: var(--color-mist);
+  line-height: 1.5;
+}
+
+/* ---- Info Card ---- */
+.rpanel__info-card {
+  padding: 10px 12px;
+  background: rgba(0, 212, 255, 0.04);
+  border: 1px solid rgba(0, 212, 255, 0.1);
+  border-radius: var(--radius-md);
+}
+
+.rpanel__info-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--color-blue);
+  margin-bottom: 4px;
+}
+
+.rpanel__info-text {
+  font-size: 0.7rem;
+  color: var(--color-mist);
+  line-height: 1.4;
+}

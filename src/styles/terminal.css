@@ -1,0 +1,199 @@
+/* ============================================
+   LOST IN THE CLOUD — Terminal Visual System
+   ============================================ */
+
+.cloud-terminal {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--color-void);
+  border-top: 1px solid var(--border-default);
+  display: flex;
+  flex-direction: column;
+  max-height: 350px;
+  min-height: 40px;
+  transition: max-height var(--duration-slow) var(--ease-smooth);
+  position: relative;
+}
+
+.cloud-terminal--collapsed {
+  max-height: 40px;
+  overflow: hidden;
+}
+
+/* ---- Terminal Header ---- */
+.terminal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(5, 5, 8, 0.9);
+  border-bottom: 1px solid var(--border-subtle);
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.terminal-header__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-mist);
+}
+
+.terminal-header__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-success);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.terminal-header__toggle {
+  font-size: 0.7rem;
+  color: var(--color-ash);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.1em;
+  padding: 2px 6px;
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+.terminal-header__toggle:hover {
+  color: var(--color-cloud);
+}
+
+/* ---- Terminal Output ---- */
+.terminal-output {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-md);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.terminal-line {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: 2px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.terminal-line__timestamp {
+  color: var(--color-steel);
+  font-size: 0.7rem;
+  flex-shrink: 0;
+  min-width: 60px;
+}
+
+.terminal-line__content {
+  flex: 1;
+}
+
+/* ---- Output Types ---- */
+.terminal-line--command .terminal-line__content {
+  color: var(--color-white);
+}
+
+.terminal-line--command .terminal-line__content::before {
+  content: '$ ';
+  color: var(--color-primary);
+}
+
+.terminal-line--output .terminal-line__content {
+  color: var(--color-cloud);
+}
+
+.terminal-line--error .terminal-line__content {
+  color: var(--color-danger);
+}
+
+.terminal-line--error .terminal-line__content::before {
+  content: '✗ ';
+}
+
+.terminal-line--warning .terminal-line__content {
+  color: var(--color-warning);
+}
+
+.terminal-line--warning .terminal-line__content::before {
+  content: '⚠ ';
+}
+
+.terminal-line--success .terminal-line__content {
+  color: var(--color-success);
+}
+
+.terminal-line--success .terminal-line__content::before {
+  content: '✓ ';
+}
+
+.terminal-line--system .terminal-line__content {
+  color: var(--color-blue);
+  font-style: italic;
+}
+
+.terminal-line--info .terminal-line__content {
+  color: var(--color-mist);
+}
+
+/* ---- Terminal Input ---- */
+.terminal-input-row {
+  display: flex;
+  align-items: center;
+  padding: var(--space-sm) var(--space-md);
+  border-top: 1px solid var(--border-subtle);
+  background: rgba(5, 5, 8, 0.6);
+  flex-shrink: 0;
+}
+
+.terminal-prompt {
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-right: var(--space-sm);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-white);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  caret-color: var(--color-primary);
+}
+
+.terminal-input::placeholder {
+  color: var(--color-steel);
+}
+
+/* ---- System Status Table ---- */
+.terminal-table {
+  border-collapse: collapse;
+  margin: var(--space-sm) 0;
+}
+
+.terminal-table td {
+  padding: 1px var(--space-md) 1px 0;
+  font-size: 0.8rem;
+}
+
+.terminal-table td:first-child {
+  color: var(--color-cloud);
+  min-width: 120px;
+}
+
+/* ---- Terminal Separator ---- */
+.terminal-separator {
+  color: var(--color-steel);
+  margin: var(--space-xs) 0;
+}

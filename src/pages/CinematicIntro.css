@@ -1,0 +1,112 @@
+/* ============================================
+   LOST IN THE CLOUD — Cinematic Intro Styles
+   ============================================ */
+
+.cinematic {
+  position: fixed;
+  inset: 0;
+  background: var(--color-void);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-cinematic);
+  overflow: hidden;
+}
+
+/* ---- Card ---- */
+.cinematic__card {
+  text-align: center;
+  opacity: 0;
+  transform: scale(0.97);
+  transition: opacity 0.8s var(--ease-cinematic), transform 0.8s var(--ease-cinematic);
+}
+
+.cinematic__card--visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.cinematic__card-line {
+  font-family: 'Outfit', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  line-height: 1.6;
+}
+
+.cinematic__card-line--primary {
+  font-weight: 700;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  color: var(--color-white);
+}
+
+.cinematic__card-line--secondary {
+  font-weight: 400;
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
+  color: var(--color-mist);
+  margin-top: var(--space-sm);
+}
+
+/* ---- Dialogue ---- */
+.cinematic__dialogue {
+  max-width: 600px;
+  padding: var(--space-xl);
+  text-align: center;
+}
+
+.cinematic__dialogue-speaker {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  margin-bottom: var(--space-lg);
+}
+
+.cinematic__dialogue-text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  color: var(--color-light);
+  line-height: 1.8;
+  min-height: 2.8em;
+}
+
+.cinematic__cursor {
+  color: var(--color-primary);
+  animation: cursorBlink 0.8s step-end infinite;
+  margin-left: 2px;
+}
+
+/* ---- Fade Out ---- */
+.cinematic__fade-out {
+  position: fixed;
+  inset: 0;
+  background: var(--color-void);
+  animation: fadeIn 1s var(--ease-cinematic) forwards;
+  z-index: 100;
+}
+
+/* ---- Skip Button ---- */
+.cinematic__skip {
+  position: fixed;
+  bottom: var(--space-xl);
+  right: var(--space-xl);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-steel);
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-smooth);
+  animation: fadeIn 0.5s var(--ease-cinematic);
+  z-index: 200;
+}
+
+.cinematic__skip:hover {
+  color: var(--color-cloud);
+  border-color: var(--border-default);
+}

@@ -1,0 +1,258 @@
+/* ============================================
+   LOST IN THE CLOUD — Left Panel Styles
+   ============================================ */
+
+.lpanel {
+  padding: var(--space-md);
+  height: 100%;
+  overflow-y: auto;
+  background: var(--surface-panel);
+}
+
+/* ---- Header ---- */
+.lpanel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.lpanel__company {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--color-primary);
+}
+
+.lpanel__day {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--color-blue);
+  background: rgba(0, 212, 255, 0.08);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0, 212, 255, 0.15);
+}
+
+.lpanel__divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: var(--space-md) 0;
+}
+
+/* ---- Role ---- */
+.lpanel__role {
+  margin-bottom: var(--space-xs);
+}
+
+.lpanel__role-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--color-steel);
+  margin-bottom: var(--space-xs);
+}
+
+.lpanel__role-value {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--color-white);
+  letter-spacing: 0.03em;
+}
+
+.lpanel__role-dept {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  color: var(--color-ash);
+  margin-top: 2px;
+}
+
+/* ---- Section Label ---- */
+.lpanel__section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--color-steel);
+  margin-bottom: var(--space-sm);
+  text-transform: uppercase;
+}
+
+/* ---- Current Mission ---- */
+.lpanel__mission {
+  margin-bottom: var(--space-xs);
+}
+
+.lpanel__mission-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+
+.lpanel__mission-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-white);
+  letter-spacing: 0.03em;
+  margin-bottom: 6px;
+}
+
+.lpanel__mission-desc {
+  font-size: 0.75rem;
+  color: var(--color-mist);
+  line-height: 1.5;
+  margin-bottom: var(--space-md);
+}
+
+/* ---- Progress ---- */
+.lpanel__progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.lpanel__progress-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--color-slate);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.lpanel__progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), #ffcc00);
+  border-radius: var(--radius-full);
+  transition: width var(--duration-slow) var(--ease-smooth);
+  box-shadow: 0 0 8px rgba(255, 153, 0, 0.3);
+}
+
+.lpanel__progress-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  min-width: 28px;
+  text-align: right;
+}
+
+/* ---- Objectives ---- */
+.lpanel__objectives {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lpanel__objective {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  transition: background var(--duration-fast) var(--ease-smooth);
+}
+
+.lpanel__objective:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.lpanel__objective-check {
+  font-size: 0.7rem;
+  color: var(--color-ash);
+  flex-shrink: 0;
+  width: 16px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.lpanel__objective--done .lpanel__objective-check {
+  color: var(--color-success);
+}
+
+.lpanel__objective-text {
+  font-size: 0.75rem;
+  color: var(--color-cloud);
+  line-height: 1.4;
+}
+
+.lpanel__objective--done .lpanel__objective-text {
+  color: var(--color-ash);
+  text-decoration: line-through;
+}
+
+/* ---- Mission List ---- */
+.lpanel__missions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lpanel__mission-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.7rem;
+  transition: background var(--duration-fast) var(--ease-smooth);
+}
+
+.lpanel__mission-item:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.lpanel__mission-item-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--color-steel);
+  min-width: 20px;
+}
+
+.lpanel__mission-item-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  color: var(--color-mist);
+  flex: 1;
+}
+
+.lpanel__mission-item--active {
+  background: rgba(255, 153, 0, 0.06);
+  border-left: 2px solid var(--color-primary);
+}
+
+.lpanel__mission-item--active .lpanel__mission-item-num {
+  color: var(--color-primary);
+}
+
+.lpanel__mission-item--active .lpanel__mission-item-title {
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+.lpanel__mission-item--completed .lpanel__mission-item-title {
+  color: var(--color-ash);
+}
+
+.lpanel__mission-item--locked {
+  opacity: 0.4;
+}
+
+.lpanel__mission-item-check {
+  color: var(--color-success);
+  font-size: 0.65rem;
+}
+
+.lpanel__mission-item-lock {
+  font-size: 0.55rem;
+}
