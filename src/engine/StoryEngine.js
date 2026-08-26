@@ -16,13 +16,13 @@ const ACTS = {
 
 class StoryEngineCore {
   getAct(actId) {
-    return ACTS[actId] || null;
+    return ACTS[actId] || ACTS.act1;
   }
 
   getMission(actId, missionId) {
     const act = this.getAct(actId);
     if (!act) return null;
-    return act.missions.find(m => m.id === missionId) || null;
+    return act.missions.find(m => m.id === missionId) || act.missions[0] || null;
   }
 
   getScene(actId, missionId, sceneId) {
@@ -32,19 +32,30 @@ class StoryEngineCore {
   }
 
   getCurrentScene(state) {
-    return this.getScene(state.currentAct, state.currentMission, state.currentScene);
+    const actId = state.currentAct || 'act1';
+    const missionId = state.currentMission || 'mission_01';
+    const sceneId = state.currentScene;
+
+    let scene = this.getScene(actId, missionId, sceneId);
+    if (!scene) {
+      const mission = this.getMission(actId, missionId);
+      if (mission && mission.scenes && mission.scenes.length > 0) {
+        return mission.scenes[0];
+      }
+    }
+    return scene;
   }
 
   getCurrentMission(state) {
-    return this.getMission(state.currentAct, state.currentMission);
+    return this.getMission(state.currentAct || 'act1', state.currentMission || 'mission_01');
   }
 
   getCurrentAct(state) {
-    return this.getAct(state.currentAct);
+    return this.getAct(state.currentAct || 'act1');
   }
 
   getAllMissions(actId) {
-    const act = this.getAct(actId);
+    const act = this.getAct(actId || 'act1');
     if (!act) return [];
     return act.missions;
   }
@@ -53,7 +64,8 @@ class StoryEngineCore {
     const mission = this.getCurrentMission(state);
     if (!mission) return null;
 
-    const currentIndex = mission.scenes.findIndex(s => s.id === state.currentScene);
+    const currentSceneObj = this.getCurrentScene(state);
+    const currentIndex = mission.scenes.findIndex(s => s.id === (currentSceneObj ? currentSceneObj.id : state.currentScene));
     if (currentIndex === -1 || currentIndex >= mission.scenes.length - 1) return null;
 
     return mission.scenes[currentIndex + 1];

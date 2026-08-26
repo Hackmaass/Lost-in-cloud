@@ -26,7 +26,7 @@ export const initialPlayerState = {
   // ---- Progression ----
   currentAct: 'act1',
   currentMission: 'mission_01',
-  currentScene: 'scene_01_1',
+  currentScene: 'scene_01_01',
   currentObjectiveIndex: 0,
   day: 1,
 

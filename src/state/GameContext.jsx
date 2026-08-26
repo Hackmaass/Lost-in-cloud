@@ -14,7 +14,12 @@ export function GameProvider({ children }) {
     // Try to load saved state on initialization
     const saved = SaveManager.load();
     if (saved) {
-      return { ...initialPlayerState, ...saved };
+      const merged = { ...initialPlayerState, ...saved };
+      // Sanitize old scene IDs
+      if (merged.currentScene === 'scene_01_1') {
+        merged.currentScene = 'scene_01_01';
+      }
+      return merged;
     }
     return initialPlayerState;
   });
