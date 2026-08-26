@@ -3,10 +3,11 @@
    ============================================
    Data-driven narrative engine.
    Resolves current scene, evaluates conditions,
-   manages dialogue progression.
+   manages dialogue progression & evidence.
    ============================================ */
 
 import ACT_1 from '../data/story/act1';
+import { EVIDENCE, getEvidence } from '../data/evidence';
 
 // All acts registry — add future acts here
 const ACTS = {
@@ -106,20 +107,49 @@ class StoryEngineCore {
     return this.isMissionComplete(state, prevMission.id);
   }
 
+  getEvidence(evidenceId) {
+    return getEvidence(evidenceId);
+  }
+
   evaluateCondition(condition, state) {
     if (!condition) return true;
 
+    // Story flag check
+    if (condition.flag) {
+      if (!state.storyFlags.includes(condition.flag)) return false;
+    }
+    if (condition.notFlag) {
+      if (state.storyFlags.includes(condition.notFlag)) return false;
+    }
+
+    // Required flag legacy
     if (condition.requiredFlag) {
-      return state.storyFlags.includes(condition.requiredFlag);
+      if (!state.storyFlags.includes(condition.requiredFlag)) return false;
     }
     if (condition.requiredMission) {
-      return state.completedMissions.includes(condition.requiredMission);
+      if (!state.completedMissions.includes(condition.requiredMission)) return false;
     }
     if (condition.requiredXp) {
-      return state.xp >= condition.requiredXp;
+      if (state.xp < condition.requiredXp) return false;
     }
 
     return true;
+  }
+
+  resolveSceneDialogue(scene, state) {
+    if (!scene) return [];
+
+    // Check if there are conditional dialogues
+    if (scene.conditionDialogue && Array.isArray(scene.conditionDialogue)) {
+      for (const entry of scene.conditionDialogue) {
+        if (this.evaluateCondition(entry.condition, state)) {
+          return entry.dialogue || [];
+        }
+      }
+    }
+
+    // Fallback to static dialogue
+    return scene.dialogue || [];
   }
 }
 

@@ -1,0 +1,185 @@
+/* ============================================
+   LOST IN THE CLOUD — Events Hub Styles
+   ============================================ */
+
+.events-page {
+  padding: var(--space-xl) var(--space-2xl);
+  height: 100%;
+  overflow-y: auto;
+  background: var(--color-void);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.events-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: var(--space-md);
+}
+
+.events-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--color-primary);
+}
+
+.events-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--color-white);
+  margin-top: 2px;
+}
+
+.events-registered-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-success);
+  background: rgba(0, 230, 118, 0.08);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0, 230, 118, 0.2);
+}
+
+/* ---- Filters ---- */
+.events-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.events-filter-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  padding: 4px 10px;
+  background: var(--surface-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--color-mist);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.events-filter-btn--active {
+  background: rgba(255, 153, 0, 0.1);
+  color: var(--color-primary);
+  border-color: rgba(255, 153, 0, 0.3);
+  font-weight: 700;
+}
+
+/* ---- Grid ---- */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-xl);
+}
+
+.event-card {
+  background: var(--surface-panel);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.event-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+}
+
+.event-card__type {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.event-card__date {
+  color: var(--color-ash);
+}
+
+.event-card__title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--color-white);
+}
+
+.event-card__desc {
+  font-size: 0.75rem;
+  color: var(--color-cloud);
+  line-height: 1.45;
+}
+
+.event-card__info-row {
+  font-size: 0.7rem;
+  color: var(--color-mist);
+  display: flex;
+  gap: var(--space-md);
+}
+
+.event-card__concepts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: var(--space-xs);
+}
+
+.event-concept-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  padding: 2px 6px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--color-blue);
+}
+
+.event-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: var(--space-sm);
+  margin-top: auto;
+}
+
+.event-card__xp {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.event-rsvp-btn {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  padding: 6px 14px;
+  background: var(--color-primary);
+  color: var(--color-void);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.event-rsvp-btn:hover {
+  background: #ffaa22;
+}
+
+.event-rsvp-btn--registered {
+  background: rgba(0, 230, 118, 0.15);
+  color: var(--color-success);
+  border: 1px solid rgba(0, 230, 118, 0.3);
+}

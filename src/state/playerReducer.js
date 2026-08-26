@@ -42,10 +42,16 @@ export const initialPlayerState = {
 
   // ---- Progression Stats ----
   xp: 0,
+  clubXp: 450,
   level: 1,
   skills: {},
   achievements: [],
   unlockedConcepts: [],
+
+  // ---- AWS Cloud Club ----
+  registeredEvents: ['evt_serverless_night'],
+  completedChallenges: [],
+  clubProjects: [],
 
   // ---- Messages ----
   messages: [],
@@ -53,6 +59,10 @@ export const initialPlayerState = {
 
   // ---- Terminal ----
   terminalHistory: [],
+
+  // ---- Mission Ratings & Investigation ----
+  missionRatings: {},
+  investigationState: {},
 
   // ---- Meta ----
   createdAt: null,
@@ -72,16 +82,25 @@ export const ACTION_TYPES = {
   SET_STORY_FLAGS: 'SET_STORY_FLAGS',
   MAKE_DECISION: 'MAKE_DECISION',
   ADD_XP: 'ADD_XP',
+  ADD_CLUB_XP: 'ADD_CLUB_XP',
   UNLOCK_CONCEPT: 'UNLOCK_CONCEPT',
+  UNLOCK_CONCEPTS: 'UNLOCK_CONCEPTS',
   UNLOCK_ACHIEVEMENT: 'UNLOCK_ACHIEVEMENT',
+  REGISTER_EVENT: 'REGISTER_EVENT',
+  UNREGISTER_EVENT: 'UNREGISTER_EVENT',
+  SUBMIT_CHALLENGE: 'SUBMIT_CHALLENGE',
+  PUBLISH_PROJECT: 'PUBLISH_PROJECT',
   ADD_MESSAGE: 'ADD_MESSAGE',
   MARK_MESSAGES_READ: 'MARK_MESSAGES_READ',
   ADD_TERMINAL_ENTRY: 'ADD_TERMINAL_ENTRY',
   CLEAR_TERMINAL: 'CLEAR_TERMINAL',
   LOAD_STATE: 'LOAD_STATE',
   INCREMENT_DAY: 'INCREMENT_DAY',
+  SET_DAY: 'SET_DAY',
   DISCOVER_INFO: 'DISCOVER_INFO',
   ADD_SKILL: 'ADD_SKILL',
+  SET_MISSION_RATING: 'SET_MISSION_RATING',
+  UPDATE_INVESTIGATION: 'UPDATE_INVESTIGATION',
 };
 
 export function playerReducer(state, action) {
@@ -160,12 +179,55 @@ export function playerReducer(state, action) {
       return { ...state, xp: newXp, level: newLevel };
     }
 
+    case ACTION_TYPES.ADD_CLUB_XP:
+      return {
+        ...state,
+        clubXp: (state.clubXp || 0) + action.payload,
+      };
+
+    case ACTION_TYPES.REGISTER_EVENT:
+      if ((state.registeredEvents || []).includes(action.payload)) return state;
+      return {
+        ...state,
+        registeredEvents: [...(state.registeredEvents || []), action.payload],
+        clubXp: (state.clubXp || 0) + 50, // RSVP bonus
+      };
+
+    case ACTION_TYPES.UNREGISTER_EVENT:
+      return {
+        ...state,
+        registeredEvents: (state.registeredEvents || []).filter(eId => eId !== action.payload),
+      };
+
+    case ACTION_TYPES.SUBMIT_CHALLENGE:
+      return {
+        ...state,
+        completedChallenges: [...(state.completedChallenges || []), action.payload.challengeId],
+        clubXp: (state.clubXp || 0) + (action.payload.points || 200),
+      };
+
+    case ACTION_TYPES.PUBLISH_PROJECT:
+      return {
+        ...state,
+        clubProjects: [...(state.clubProjects || []), action.payload],
+        clubXp: (state.clubXp || 0) + 300,
+      };
+
     case ACTION_TYPES.UNLOCK_CONCEPT:
       if (state.unlockedConcepts.includes(action.payload)) return state;
       return {
         ...state,
         unlockedConcepts: [...state.unlockedConcepts, action.payload],
       };
+
+    case ACTION_TYPES.UNLOCK_CONCEPTS: {
+      const toAdd = action.payload.filter(c => !state.unlockedConcepts.includes(c));
+      if (toAdd.length === 0) return state;
+      return {
+        ...state,
+        unlockedConcepts: [...state.unlockedConcepts, ...toAdd],
+      };
+    }
 
     case ACTION_TYPES.UNLOCK_ACHIEVEMENT:
       if (state.achievements.includes(action.payload)) return state;
@@ -211,6 +273,9 @@ export function playerReducer(state, action) {
     case ACTION_TYPES.INCREMENT_DAY:
       return { ...state, day: state.day + 1 };
 
+    case ACTION_TYPES.SET_DAY:
+      return { ...state, day: action.payload };
+
     case ACTION_TYPES.DISCOVER_INFO:
       if (state.discoveredInfo.includes(action.payload)) return state;
       return {
@@ -224,6 +289,24 @@ export function playerReducer(state, action) {
         skills: {
           ...state.skills,
           [action.payload.skill]: (state.skills[action.payload.skill] || 0) + action.payload.amount,
+        },
+      };
+
+    case ACTION_TYPES.SET_MISSION_RATING:
+      return {
+        ...state,
+        missionRatings: {
+          ...state.missionRatings,
+          [action.payload.missionId]: action.payload.ratings,
+        },
+      };
+
+    case ACTION_TYPES.UPDATE_INVESTIGATION:
+      return {
+        ...state,
+        investigationState: {
+          ...state.investigationState,
+          ...action.payload,
         },
       };
 

@@ -1,0 +1,520 @@
+/* ============================================
+   LOST IN THE CLOUD — Club Home Styles
+   ============================================ */
+
+.club-home {
+  padding: var(--space-xl) var(--space-2xl);
+  height: 100%;
+  overflow-y: auto;
+  background: var(--color-void);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* ---- Active Season Banner ---- */
+.club-season-banner {
+  background: linear-gradient(135deg, rgba(255, 153, 0, 0.12), rgba(0, 212, 255, 0.08));
+  border: 1px solid rgba(255, 153, 0, 0.3);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl) var(--space-2xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2xl);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.club-season-banner__tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: 4px;
+}
+
+.club-season-banner__title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  font-size: 1.6rem;
+  color: var(--color-white);
+  letter-spacing: 0.05em;
+}
+
+.club-season-banner__desc {
+  font-size: 0.85rem;
+  color: var(--color-cloud);
+  margin-top: 4px;
+  margin-bottom: var(--space-lg);
+}
+
+.club-season-stats {
+  display: flex;
+  gap: var(--space-xl);
+}
+
+.club-season-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.club-season-stat__val {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  font-size: 1.3rem;
+  color: var(--color-white);
+}
+
+.club-season-stat__lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--color-ash);
+}
+
+.club-season-banner__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  flex-shrink: 0;
+}
+
+.club-btn {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--duration-fast);
+}
+
+.club-btn--primary {
+  background: var(--color-primary);
+  color: var(--color-void);
+  border: none;
+}
+
+.club-btn--primary:hover {
+  background: #ffaa22;
+  box-shadow: 0 0 20px rgba(255, 153, 0, 0.4);
+}
+
+.club-btn--outline {
+  background: transparent;
+  border: 1px solid var(--border-default);
+  color: var(--color-cloud);
+}
+
+.club-btn--outline:hover {
+  border-color: var(--color-blue);
+  color: var(--color-white);
+}
+
+/* ---- Announcements Row ---- */
+.club-announcements-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-md);
+}
+
+.club-ann-card {
+  background: var(--surface-panel);
+  border: 1px solid var(--border-default);
+  border-left: 3px solid var(--color-blue);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+}
+
+.club-ann-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.club-ann-card__badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  background: rgba(0, 212, 255, 0.1);
+  color: var(--color-blue);
+  border-radius: var(--radius-sm);
+}
+
+.club-ann-card__date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--color-ash);
+}
+
+.club-ann-card__title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--color-white);
+  margin-bottom: 4px;
+}
+
+.club-ann-card__content {
+  font-size: 0.75rem;
+  color: var(--color-cloud);
+  line-height: 1.5;
+}
+
+.club-ann-card__author {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--color-steel);
+  margin-top: 6px;
+}
+
+/* ---- Grid ---- */
+.club-home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: var(--space-xl);
+}
+
+.club-panel {
+  background: var(--surface-panel);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.club-panel__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.club-panel__tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: 0.1em;
+}
+
+.club-panel__title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--color-white);
+  margin-top: 2px;
+}
+
+.club-panel__link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--color-blue);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.club-panel__link:hover {
+  text-decoration: underline;
+}
+
+/* ---- Events List ---- */
+.club-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.club-event-item {
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+}
+
+.club-event-item__header {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  margin-bottom: 4px;
+}
+
+.club-event-item__type {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.club-event-item__date {
+  color: var(--color-ash);
+}
+
+.club-event-item__title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--color-white);
+  margin-bottom: 4px;
+}
+
+.club-event-item__desc {
+  font-size: 0.75rem;
+  color: var(--color-cloud);
+  line-height: 1.4;
+  margin-bottom: var(--space-sm);
+}
+
+.club-event-item__meta {
+  font-size: 0.65rem;
+  color: var(--color-mist);
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.club-event-item__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: var(--space-sm);
+}
+
+.club-event-item__xp {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-blue);
+}
+
+.club-rsvp-btn {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  padding: 6px 14px;
+  background: var(--color-primary);
+  color: var(--color-void);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.club-rsvp-btn--registered {
+  background: rgba(0, 230, 118, 0.15);
+  color: var(--color-success);
+  border: 1px solid rgba(0, 230, 118, 0.3);
+}
+
+/* ---- Challenges ---- */
+.club-challenges-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.club-challenge-card {
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.club-challenge-card:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.club-challenge-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.club-diff-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+.diff--beginner { background: rgba(0, 230, 118, 0.12); color: var(--color-success); }
+.diff--intermediate { background: rgba(255, 179, 71, 0.12); color: var(--color-warning); }
+.diff--advanced { background: rgba(255, 59, 59, 0.12); color: var(--color-danger); }
+
+.club-challenge-card__pts {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.club-challenge-card__title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--color-white);
+  margin-bottom: 4px;
+}
+
+.club-challenge-card__desc {
+  font-size: 0.75rem;
+  color: var(--color-cloud);
+  line-height: 1.4;
+  margin-bottom: var(--space-sm);
+}
+
+.club-challenge-card__footer {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--color-ash);
+}
+
+.club-challenge-card__action {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+/* ---- Modals ---- */
+.club-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl);
+}
+
+.club-modal {
+  width: 100%;
+  max-width: 540px;
+  background: var(--surface-panel);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+.club-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.club-modal__tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.club-modal__title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--color-white);
+}
+
+.club-modal__close {
+  background: transparent;
+  border: none;
+  color: var(--color-ash);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.club-modal__desc {
+  font-size: 0.85rem;
+  color: var(--color-cloud);
+  line-height: 1.6;
+  margin-bottom: var(--space-md);
+}
+
+.club-modal__section-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--color-steel);
+  margin-bottom: 6px;
+}
+
+.club-modal__reqs-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-lg) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.club-modal__reqs-list li {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: var(--color-mist);
+}
+
+.club-submit-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.club-submit-input,
+.club-submit-textarea {
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  color: var(--color-white);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  outline: none;
+}
+
+.club-submit-btn {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 10px;
+  background: var(--color-primary);
+  color: var(--color-void);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.club-submit-success {
+  padding: var(--space-lg);
+  background: rgba(0, 230, 118, 0.12);
+  border: 1px solid rgba(0, 230, 118, 0.3);
+  border-radius: var(--radius-md);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: var(--color-success);
+  text-align: center;
+  font-size: 0.85rem;
+}

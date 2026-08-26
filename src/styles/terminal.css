@@ -1,199 +1,200 @@
 /* ============================================
-   LOST IN THE CLOUD — Terminal Visual System
+   LOST IN THE CLOUD — Nexora Cloud Console Styles
    ============================================ */
 
-.cloud-terminal {
-  font-family: 'JetBrains Mono', monospace;
-  background: var(--color-void);
-  border-top: 1px solid var(--border-default);
+.nexora-console {
   display: flex;
   flex-direction: column;
-  max-height: 350px;
-  min-height: 40px;
-  transition: max-height var(--duration-slow) var(--ease-smooth);
+  height: 100%;
+  width: 100%;
+  background: #06080e;
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  border-radius: var(--radius-lg, 12px);
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 212, 255, 0.08);
+  font-family: var(--font-mono, monospace);
   position: relative;
 }
 
-.cloud-terminal--collapsed {
-  max-height: 40px;
-  overflow: hidden;
+.nexora-console--expanded {
+  position: fixed;
+  inset: 20px;
+  width: calc(100% - 40px);
+  height: calc(100% - 40px);
+  z-index: 100;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 212, 255, 0.2);
 }
 
-/* ---- Terminal Header ---- */
-.terminal-header {
+/* ---- Console Header Bar ---- */
+.nexora-console__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-sm) var(--space-md);
-  background: rgba(5, 5, 8, 0.9);
-  border-bottom: 1px solid var(--border-subtle);
-  cursor: pointer;
-  user-select: none;
+  background: #0a0e18;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+  padding: 10px 16px;
   flex-shrink: 0;
+  user-select: none;
 }
 
-.terminal-header__title {
+.nexora-console__brand {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-mist);
+  gap: 10px;
 }
 
-.terminal-header__dot {
-  width: 6px;
-  height: 6px;
+.nexora-console__dot {
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: var(--color-success);
-  animation: pulse 2s ease-in-out infinite;
+  background: #00e676;
+  box-shadow: 0 0 8px #00e676;
+  animation: pulse-glow 2s infinite ease-in-out;
 }
 
-.terminal-header__toggle {
-  font-size: 0.7rem;
-  color: var(--color-ash);
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: 'JetBrains Mono', monospace;
-  letter-spacing: 0.1em;
+.nexora-console__title {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--color-white, #f0f0f8);
+}
+
+.nexora-console__region {
+  font-size: 0.65rem;
+  color: var(--color-blue, #00d4ff);
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(0, 212, 255, 0.25);
   padding: 2px 6px;
-  transition: color var(--duration-fast) var(--ease-smooth);
+  border-radius: 4px;
 }
 
-.terminal-header__toggle:hover {
-  color: var(--color-cloud);
+.nexora-console__controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nexora-console__btn {
+  background: transparent;
+  border: none;
+  color: var(--color-mist, #8a8aa2);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.nexora-console__btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-white, #f0f0f8);
+}
+
+.nexora-console__btn--close:hover {
+  background: rgba(255, 59, 59, 0.2);
+  color: #ff3b3b;
 }
 
 /* ---- Terminal Output ---- */
-.terminal-output {
+.nexora-console__output {
   flex: 1;
   overflow-y: auto;
-  padding: var(--space-md);
-  font-size: 0.8rem;
-  line-height: 1.6;
-}
-
-.terminal-line {
+  padding: 16px 20px;
   display: flex;
-  gap: var(--space-sm);
-  margin-bottom: 2px;
-  white-space: pre-wrap;
-  word-break: break-all;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  background: #05070c;
 }
 
-.terminal-line__timestamp {
-  color: var(--color-steel);
-  font-size: 0.7rem;
-  flex-shrink: 0;
-  min-width: 60px;
+.console-entry {
+  display: flex;
+  flex-direction: column;
 }
 
-.terminal-line__content {
-  flex: 1;
-}
-
-/* ---- Output Types ---- */
-.terminal-line--command .terminal-line__content {
-  color: var(--color-white);
-}
-
-.terminal-line--command .terminal-line__content::before {
-  content: '$ ';
-  color: var(--color-primary);
-}
-
-.terminal-line--output .terminal-line__content {
-  color: var(--color-cloud);
-}
-
-.terminal-line--error .terminal-line__content {
-  color: var(--color-danger);
-}
-
-.terminal-line--error .terminal-line__content::before {
-  content: '✗ ';
-}
-
-.terminal-line--warning .terminal-line__content {
-  color: var(--color-warning);
-}
-
-.terminal-line--warning .terminal-line__content::before {
-  content: '⚠ ';
-}
-
-.terminal-line--success .terminal-line__content {
-  color: var(--color-success);
-}
-
-.terminal-line--success .terminal-line__content::before {
-  content: '✓ ';
-}
-
-.terminal-line--system .terminal-line__content {
-  color: var(--color-blue);
-  font-style: italic;
-}
-
-.terminal-line--info .terminal-line__content {
-  color: var(--color-mist);
-}
-
-/* ---- Terminal Input ---- */
-.terminal-input-row {
+.console-entry__cmd-line {
   display: flex;
   align-items: center;
-  padding: var(--space-sm) var(--space-md);
-  border-top: 1px solid var(--border-subtle);
-  background: rgba(5, 5, 8, 0.6);
-  flex-shrink: 0;
+  gap: 8px;
+  color: #00d4ff;
+  font-weight: 700;
 }
 
-.terminal-prompt {
-  color: var(--color-primary);
+.console-prompt {
+  color: #00d4ff;
+  font-weight: 800;
+}
+
+.console-cmd-text {
+  color: #ffffff;
+}
+
+.console-entry__pre {
+  margin: 4px 0 0 16px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.82rem;
+  color: var(--color-cloud, #b8b8cc);
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+.console-entry--system .console-entry__text {
+  color: #00d4ff;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.console-entry--info .console-entry__text {
+  color: var(--color-mist, #8a8aa2);
   font-size: 0.8rem;
-  font-weight: 600;
-  margin-right: var(--space-sm);
-  flex-shrink: 0;
-  white-space: nowrap;
 }
 
-.terminal-input {
+.console-entry--success .console-entry__pre,
+.console-entry--success .console-entry__text {
+  color: #00e676;
+}
+
+.console-entry--warning .console-entry__pre,
+.console-entry--warning .console-entry__text {
+  color: #ffb347;
+}
+
+.console-entry--error .console-entry__pre,
+.console-entry--error .console-entry__text {
+  color: #ff5252;
+}
+
+/* ---- Command Input Bar ---- */
+.nexora-console__input-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #090c16;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px 18px;
+  flex-shrink: 0;
+  cursor: text;
+}
+
+.nexora-console__input {
   flex: 1;
   background: transparent;
   border: none;
   outline: none;
-  color: var(--color-white);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8rem;
-  caret-color: var(--color-primary);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.9rem;
+  color: var(--color-white, #f0f0f8);
 }
 
-.terminal-input::placeholder {
-  color: var(--color-steel);
-}
-
-/* ---- System Status Table ---- */
-.terminal-table {
-  border-collapse: collapse;
-  margin: var(--space-sm) 0;
-}
-
-.terminal-table td {
-  padding: 1px var(--space-md) 1px 0;
+.nexora-console__input::placeholder {
+  color: var(--color-ash, #5a5a72);
   font-size: 0.8rem;
 }
 
-.terminal-table td:first-child {
-  color: var(--color-cloud);
-  min-width: 120px;
-}
-
-/* ---- Terminal Separator ---- */
-.terminal-separator {
-  color: var(--color-steel);
-  margin: var(--space-xs) 0;
+.nexora-console__tab-hint {
+  font-size: 0.68rem;
+  color: var(--color-steel, #3a3a52);
+  user-select: none;
 }

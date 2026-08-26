@@ -1,11 +1,7 @@
-/* ============================================
-   LOST IN THE CLOUD — Right Panel
-   Team messages, notifications, alerts
-   ============================================ */
-
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGame } from '../../state/GameContext';
 import { getCharacter } from '../../data/characters';
+import simulator from '../../engine/cloud/CloudSimulator';
 import './RightPanel.css';
 
 // Seed initial messages on mount
@@ -29,6 +25,11 @@ const INITIAL_MESSAGES = [
 
 export default function RightPanel() {
   const { state, addMessage, markMessagesRead } = useGame();
+  const [cloudHealth, setCloudHealth] = useState(() => simulator.getStateSnapshot().health);
+
+  useEffect(() => {
+    return simulator.subscribe(snap => setCloudHealth(snap.health));
+  }, []);
 
   // Seed messages on first render if empty
   useEffect(() => {
@@ -45,6 +46,14 @@ export default function RightPanel() {
     }
   };
 
+  const subsystems = cloudHealth.subsystems || {
+    application: 'online',
+    compute: 'online',
+    storage: 'online',
+    database: 'online',
+    network: 'online',
+  };
+
   return (
     <div className="rpanel" onClick={handlePanelClick}>
       <div className="rpanel__header">
@@ -58,12 +67,13 @@ export default function RightPanel() {
 
       {/* System Alerts */}
       <div className="rpanel__section">
-        <div className="rpanel__section-label">SYSTEM STATUS</div>
+        <div className="rpanel__section-label">LIVE INFRASTRUCTURE STATUS</div>
         <div className="rpanel__status-grid">
-          <StatusIndicator label="WEB" status="online" />
-          <StatusIndicator label="DATABASE" status="online" />
-          <StatusIndicator label="STORAGE" status="online" />
-          <StatusIndicator label="NETWORK" status="online" />
+          <StatusIndicator label="WEB" status={subsystems.application || 'online'} />
+          <StatusIndicator label="COMPUTE" status={subsystems.compute || 'online'} />
+          <StatusIndicator label="DATABASE" status={subsystems.database || 'online'} />
+          <StatusIndicator label="STORAGE" status={subsystems.storage || 'online'} />
+          <StatusIndicator label="NETWORK" status={subsystems.network || 'online'} />
         </div>
       </div>
 

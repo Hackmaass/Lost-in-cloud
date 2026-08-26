@@ -1,354 +1,389 @@
 /* ============================================
-   LOST IN THE CLOUD — Center Panel
-   Primary gameplay area: dialogue, scenes,
-   profiles, skills, achievements, settings
+   LOST IN THE CLOUD — Unified Scene & Investigation Stage
+   Full-screen contextual narrative experience:
+   - Dynamic Environment Backdrops
+   - Illustrated Character Portraits & Atmospheric Dialogue
+   - Incident Briefings
+   - Nexora Cloud Console Investigation
+   - Contextual Architecture Topologies & Coworker Clues
+   - Performance Debriefs
    ============================================ */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useGame } from '../../state/GameContext';
 import StoryEngine from '../../engine/StoryEngine';
 import { getCharacter } from '../../data/characters';
+import { getEvidence } from '../../data/evidence';
+import { getEnvironment } from '../../assets/visuals/environments';
+import CloudTerminal from '../terminal/CloudTerminal';
+import IncidentCard from './IncidentCard';
+import CoworkerHintModal from './CoworkerHintModal';
+import ArchitectureMap from '../infrastructure/ArchitectureMap';
+import AudioManager from '../../engine/AudioManager';
 import './CenterPanel.css';
 
-// ---- Dialogue View ----
-function DialogueView() {
-  const { state, advanceScene, completeObjective, completeScene, setStoryFlags, addXp, completeMission, addMessage } = useGame();
+export default function CenterPanel() {
+  const {
+    state,
+    advanceScene,
+    completeObjective,
+    completeScene,
+    setStoryFlags,
+    addXp,
+    completeMission,
+    setMissionRating,
+    unlockConcepts,
+    unlockConcept,
+    setDay,
+  } = useGame();
+
   const scene = StoryEngine.getCurrentScene(state);
   const [dialogueIndex, setDialogueIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [sceneComplete, setSceneComplete] = useState(false);
+  const [showArchModal, setShowArchModal] = useState(false);
+  const [showCoworkerModal, setShowCoworkerModal] = useState(false);
+  const [consoleExpanded, setConsoleExpanded] = useState(false);
+
+  // Dynamic dialogue resolution
+  const dialogueList = useMemo(() => {
+    if (!scene) return [];
+    return StoryEngine.resolveSceneDialogue(scene, state);
+  }, [scene, state.storyFlags]);
 
   // Reset when scene changes
   useEffect(() => {
     setDialogueIndex(0);
     setDisplayedText('');
     setIsTyping(false);
-    setSceneComplete(false);
   }, [state.currentScene]);
 
-  // Typewriter effect
-  useEffect(() => {
-    if (!scene) return;
-
-    if (scene.type === 'dialogue' && scene.dialogue && dialogueIndex < scene.dialogue.length) {
-      const line = scene.dialogue[dialogueIndex];
-      let charIdx = 0;
-      setIsTyping(true);
-      setDisplayedText('');
-
-      const interval = setInterval(() => {
-        charIdx++;
-        setDisplayedText(line.text.substring(0, charIdx));
-        if (charIdx >= line.text.length) {
-          clearInterval(interval);
-          setIsTyping(false);
-        }
-      }, 30);
-
-      return () => clearInterval(interval);
-    }
-  }, [scene, dialogueIndex]);
-
-  const handleAdvanceDialogue = useCallback(() => {
-    if (!scene) return;
-
-    if (isTyping) {
-      // Skip typing — show full text
-      setIsTyping(false);
-      if (scene.dialogue && dialogueIndex < scene.dialogue.length) {
-        setDisplayedText(scene.dialogue[dialogueIndex].text);
-      }
-      return;
-    }
-
-    if (scene.type === 'dialogue' && scene.dialogue) {
-      if (dialogueIndex < scene.dialogue.length - 1) {
-        setDialogueIndex(prev => prev + 1);
-      } else {
-        // Scene complete
-        handleSceneComplete();
-      }
-    }
-  }, [scene, dialogueIndex, isTyping]);
-
+  // Scene completion transition
   const handleSceneComplete = useCallback(() => {
     if (!scene) return;
 
-    // Complete objective if specified
     if (scene.objectiveComplete) {
       completeObjective(scene.objectiveComplete);
     }
-
-    // Set story flags
     if (scene.storyFlags) {
       setStoryFlags(scene.storyFlags);
+    }
+    if (scene.unlocks && Array.isArray(scene.unlocks)) {
+      unlockConcepts(scene.unlocks);
+    } else if (scene.unlocks && typeof scene.unlocks === 'string') {
+      unlockConcept(scene.unlocks);
     }
 
     completeScene(scene.id);
 
-    // Handle mission complete scenes
-    if (scene.type === 'mission_complete') {
+    // Debrief / mission completion transition
+    if (scene.type === 'debrief' || scene.type === 'mission_complete') {
       if (scene.xp) addXp(scene.xp);
-      completeMission(state.currentMission, scene.nextMission);
-      setSceneComplete(true);
-      return;
+      if (scene.ratings) {
+        setMissionRating(state.currentMission, scene.ratings);
+      }
+
+      if (scene.nextMission) {
+        const nextMissionObj = StoryEngine.getMission(state.currentAct, scene.nextMission);
+        if (nextMissionObj) {
+          if (nextMissionObj.day) setDay(nextMissionObj.day);
+          const firstScene = nextMissionObj.scenes[0]?.id;
+          completeMission(state.currentMission, scene.nextMission, firstScene);
+          return;
+        }
+      }
     }
 
-    // Advance to next scene
     const nextSceneId = StoryEngine.getNextSceneId(state);
     if (nextSceneId) {
       advanceScene(nextSceneId);
-    } else {
-      setSceneComplete(true);
     }
-  }, [scene, state]);
+  }, [scene, state, completeObjective, setStoryFlags, unlockConcepts, unlockConcept, completeScene, addXp, setMissionRating, setDay, completeMission, advanceScene]);
+
+  // Typewriter effect for dialogue
+  useEffect(() => {
+    if (!scene || scene.type !== 'dialogue' || !dialogueList || dialogueIndex >= dialogueList.length) return;
+
+    const line = dialogueList[dialogueIndex];
+    let charIdx = 0;
+    setIsTyping(true);
+    setDisplayedText('');
+
+    const interval = setInterval(() => {
+      charIdx++;
+      setDisplayedText(line.text.substring(0, charIdx));
+      if (charIdx >= line.text.length) {
+        clearInterval(interval);
+        setIsTyping(false);
+      }
+    }, 22);
+
+    return () => clearInterval(interval);
+  }, [scene, dialogueIndex, dialogueList]);
+
+  // Advance dialogue
+  const handleAdvanceDialogue = useCallback(() => {
+    if (!scene) return;
+
+    if (isTyping) {
+      setIsTyping(false);
+      if (dialogueList && dialogueIndex < dialogueList.length) {
+        setDisplayedText(dialogueList[dialogueIndex].text);
+      }
+      return;
+    }
+
+    AudioManager.play('dialogue_advance');
+
+    if (scene.type === 'dialogue' && dialogueList) {
+      if (dialogueIndex < dialogueList.length - 1) {
+        setDialogueIndex(prev => prev + 1);
+      } else {
+        handleSceneComplete();
+      }
+    }
+  }, [scene, dialogueIndex, isTyping, dialogueList, handleSceneComplete]);
+
+  // Resolve Environment Backdrop
+  const envKey = scene?.environment || (scene?.type === 'alert' ? 'incident_room' : scene?.type === 'terminal_task' ? 'workstation' : 'office_day');
+  const envObj = getEnvironment(envKey);
 
   if (!scene) {
     return (
-      <div className="center-empty">
-        <div className="center-empty__icon">◈</div>
-        <div className="center-empty__title">NEXORA SYSTEMS</div>
-        <div className="center-empty__text">Welcome to Infrastructure Engineering.</div>
-        <div className="center-empty__hint">Your first assignment is waiting.</div>
+      <div className="scene-stage scene-stage--empty">
+        <div className="scene-empty-card">
+          <div className="scene-empty-card__icon">◈</div>
+          <h2>NEXORA SYSTEMS</h2>
+          <p>All scheduled operations completed for today.</p>
+        </div>
       </div>
     );
   }
 
-  // ---- Dialogue Scene ----
-  if (scene.type === 'dialogue') {
-    const currentLine = scene.dialogue?.[dialogueIndex];
-    const character = currentLine ? getCharacter(currentLine.speaker) : null;
+  return (
+    <div className="scene-stage">
+      {/* 1. Dynamic Environment Backdrop */}
+      <div className="scene-stage__backdrop">
+        {envObj.svg()}
+        <div className="scene-stage__backdrop-overlay" />
+      </div>
 
-    return (
-      <div className="center-dialogue" onClick={handleAdvanceDialogue}>
-        {character && (
-          <div className="center-dialogue__scene anim-fade-in">
-            {/* Character info */}
-            <div className="center-dialogue__character">
-              <div className="center-dialogue__avatar" style={{ borderColor: character.accentColor }}>
-                {character.name.charAt(0)}
+      {/* 2. Primary Scene Content Container */}
+      <div className="scene-stage__content-container">
+        {/* ---- A. DIALOGUE SCENE ---- */}
+        {scene.type === 'dialogue' && (
+          <div className="scene-dialogue-view" onClick={handleAdvanceDialogue}>
+            {(() => {
+              const currentLine = dialogueList?.[dialogueIndex];
+              const character = currentLine ? getCharacter(currentLine.speaker) : null;
+
+              return (
+                <>
+                  {/* Character Illustrated Portrait */}
+                  {character && (
+                    <div className="scene-dialogue-view__portrait anim-fade-in" style={{ '--char-accent': character.accentColor }}>
+                      <div className="scene-portrait-card">
+                        <div className="scene-portrait-card__graphic">
+                          {character.renderAvatar && character.renderAvatar('neutral')}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Speech Bubble */}
+                  <div className="scene-dialogue-view__bubble anim-fade-in">
+                    <div className="scene-bubble-header">
+                      <span className="scene-bubble-name" style={{ color: character?.accentColor }}>
+                        {character?.name.toUpperCase()}
+                      </span>
+                      <span className="scene-bubble-title">{character?.title}</span>
+                    </div>
+
+                    <p className="scene-bubble-text">
+                      "{displayedText}"
+                      {isTyping && <span className="scene-bubble-cursor">|</span>}
+                    </p>
+
+                    <div className="scene-bubble-footer">
+                      <span className="scene-bubble-tip">
+                        {isTyping ? 'Click to show text' : 'Click anywhere to continue'}
+                      </span>
+                      <button className="scene-bubble-btn" onClick={e => { e.stopPropagation(); handleAdvanceDialogue(); }}>
+                        CONTINUE →
+                      </button>
+                    </div>
+                  </div>
+                </>
+              );
+            })()}
+          </div>
+        )}
+
+        {/* ---- B. NARRATIVE SCENE ---- */}
+        {scene.type === 'narrative' && (
+          <div className="scene-narrative-view anim-fade-in">
+            <div className="scene-narrative-card">
+              <div className="scene-narrative-card__badge">ORIENTATION</div>
+              <div className="scene-narrative-card__body">
+                {scene.text?.map((paragraph, idx) => (
+                  <p key={idx} className="scene-narrative-paragraph">{paragraph}</p>
+                ))}
               </div>
-              <div className="center-dialogue__info">
-                <div className="center-dialogue__name" style={{ color: character.accentColor }}>
-                  {character.name.toUpperCase()}
+              <div className="scene-narrative-card__actions">
+                <button className="scene-btn scene-btn--primary" onClick={handleSceneComplete}>
+                  {scene.action?.hint ? 'OPEN CLOUD CONSOLE →' : 'CONTINUE →'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ---- C. ALERT / INCIDENT SCENE ---- */}
+        {scene.type === 'alert' && (
+          <div className="scene-alert-view anim-fade-in">
+            <IncidentCard
+              incidentId={scene.title || 'INCIDENT #1042'}
+              title={scene.title || 'PRODUCTION WEBSITE UNAVAILABLE'}
+              severity={scene.severity || 'danger'}
+              summary={scene.message || 'Service degradation detected in production.'}
+              onInvestigate={handleSceneComplete}
+              onOpenArch={() => setShowArchModal(true)}
+            />
+          </div>
+        )}
+
+        {/* ---- D. TERMINAL TASK / INVESTIGATION SCENE ---- */}
+        {scene.type === 'terminal_task' && (
+          <div className="scene-investigation-view anim-fade-in">
+            {/* Top Context Bar */}
+            <div className="scene-investigation-bar">
+              <div className="scene-investigation-bar__objective">
+                <span className="scene-investigation-bar__icon">⚡</span>
+                <span className="scene-investigation-bar__text">
+                  COMMAND OBJECTIVE: Type <code>{scene.requiredCommand}</code>
+                </span>
+              </div>
+
+              <div className="scene-investigation-bar__tools">
+                <button
+                  className="scene-tool-btn"
+                  onClick={() => setShowArchModal(true)}
+                  title="Inspect Architecture Map"
+                >
+                  <span>🗺 Architecture</span>
+                </button>
+                <button
+                  className="scene-tool-btn scene-tool-btn--coworker"
+                  onClick={() => setShowCoworkerModal(true)}
+                  title="Ask Arjun for a clue"
+                >
+                  <span>💬 Ask Arjun</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Cloud Console Workbench */}
+            <div className="scene-investigation-terminal">
+              <CloudTerminal
+                isStandalone={false}
+                isExpanded={consoleExpanded}
+                onToggleExpand={() => setConsoleExpanded(prev => !prev)}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* ---- E. EVIDENCE REVEAL SCENE ---- */}
+        {scene.type === 'evidence' && (
+          <div className="scene-evidence-view anim-fade-in">
+            {(() => {
+              const ev = getEvidence(scene.evidenceId);
+              return (
+                <div className="scene-evidence-card">
+                  <div className="scene-evidence-card__header">
+                    <span className="scene-evidence-badge">CRITICAL EVIDENCE DISCOVERED</span>
+                    <span className="scene-evidence-id">{ev?.id || 'EVT_0317'}</span>
+                  </div>
+
+                  <h3 className="scene-evidence-title">{ev?.title || '03:17:04 CloudTrail Anomaly'}</h3>
+                  <p className="scene-evidence-desc">{ev?.description}</p>
+
+                  <div className="scene-evidence-log-box">
+                    <pre>{ev?.content || '03:17:04 UTC USER: nexora-deploy-old ACTION: ec2:RebootInstances SOURCE_IP: 198.51.100.42'}</pre>
+                  </div>
+
+                  <div className="scene-evidence-actions">
+                    <button className="scene-btn scene-btn--primary" onClick={handleSceneComplete}>
+                      LOG EVIDENCE & CONTINUE →
+                    </button>
+                  </div>
                 </div>
-                <div className="center-dialogue__title">{character.title}</div>
+              );
+            })()}
+          </div>
+        )}
+
+        {/* ---- F. DEBRIEF / MISSION COMPLETE SCENE ---- */}
+        {(scene.type === 'debrief' || scene.type === 'mission_complete') && (
+          <div className="scene-debrief-view anim-fade-in">
+            <div className="scene-debrief-card">
+              <div className="scene-debrief-card__badge">MISSION RESOLVED</div>
+              <h2 className="scene-debrief-title">{scene.title || 'MISSION COMPLETE'}</h2>
+              <p className="scene-debrief-subtitle">{scene.subtitle}</p>
+
+              <p className="scene-debrief-msg">{scene.message}</p>
+
+              {/* Assessment Quote */}
+              {scene.assessment && (
+                <div className="scene-debrief-quote">
+                  <div className="scene-debrief-quote__speaker">MAYA CHEN:</div>
+                  <p>"{scene.assessment.text}"</p>
+                </div>
+              )}
+
+              {/* Ratings Grid */}
+              {scene.ratings && (
+                <div className="scene-debrief-ratings">
+                  {Object.entries(scene.ratings).map(([key, val]) => (
+                    <div key={key} className="scene-rating-box">
+                      <span className="scene-rating-box__label">{key.toUpperCase()}</span>
+                      <span className="scene-rating-box__val">{val}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="scene-debrief-actions">
+                <button className="scene-btn scene-btn--primary" onClick={handleSceneComplete}>
+                  CONTINUE CAREER →
+                </button>
               </div>
             </div>
-
-            {/* Dialogue text */}
-            <div className="center-dialogue__bubble">
-              <p className="center-dialogue__text">
-                "{displayedText}"
-                {isTyping && <span className="center-dialogue__cursor">|</span>}
-              </p>
-            </div>
-
-            {/* Continue hint */}
-            {!isTyping && (
-              <div className="center-dialogue__continue anim-fade-in">
-                Click to continue ▸
-              </div>
-            )}
           </div>
         )}
       </div>
-    );
-  }
 
-  // ---- Narrative Scene ----
-  if (scene.type === 'narrative') {
-    return (
-      <div className="center-narrative" onClick={handleSceneComplete}>
-        <div className="center-narrative__content anim-fade-in-up">
-          {scene.text?.map((line, i) => (
-            <p key={i} className="center-narrative__line" style={{ animationDelay: `${i * 200}ms` }}>
-              {line}
-            </p>
-          ))}
-          {scene.action && (
-            <div className="center-narrative__action">
-              <div className="center-narrative__hint">{scene.action.hint}</div>
+      {/* 3. Modals & Sidecars */}
+      {showArchModal && (
+        <div className="scene-modal-backdrop" onClick={() => setShowArchModal(false)}>
+          <div className="scene-modal-dialog" onClick={e => e.stopPropagation()}>
+            <div className="scene-modal-header">
+              <h3>NEXORA TOPOLOGY ARCHITECTURE</h3>
+              <button className="scene-modal-close" onClick={() => setShowArchModal(false)}>✕</button>
             </div>
-          )}
-          <div className="center-dialogue__continue anim-fade-in" style={{ animationDelay: '1s' }}>
-            Click to continue ▸
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // ---- Terminal Task Scene ----
-  if (scene.type === 'terminal_task') {
-    return (
-      <div className="center-terminal-task anim-fade-in">
-        <div className="center-terminal-task__content">
-          <div className="center-terminal-task__icon">⬡</div>
-          <div className="center-terminal-task__title">TERMINAL TASK</div>
-          <div className="center-terminal-task__desc">
-            Run the command: <code>{scene.requiredCommand}</code>
-          </div>
-          <div className="center-terminal-task__hint">
-            Use the Cloud Operations Terminal below.
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // ---- Mission Complete Scene ----
-  if (scene.type === 'mission_complete') {
-    return (
-      <div className="center-mission-complete" onClick={handleSceneComplete}>
-        <div className="center-mission-complete__content anim-fade-in-up">
-          <div className="center-mission-complete__badge">✓</div>
-          <div className="center-mission-complete__title">{scene.title}</div>
-          <div className="center-mission-complete__subtitle">{scene.subtitle}</div>
-          <div className="center-mission-complete__message">{scene.message}</div>
-          {scene.xp && (
-            <div className="center-mission-complete__xp">+{scene.xp} XP</div>
-          )}
-          <div className="center-dialogue__continue" style={{ marginTop: '2rem' }}>
-            Click to continue ▸
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return null;
-}
-
-// ---- Profile View ----
-function ProfileView() {
-  const { state } = useGame();
-
-  return (
-    <div className="center-profile anim-fade-in">
-      <div className="center-profile__card">
-        <div className="center-profile__header">EMPLOYEE PROFILE</div>
-        <div className="center-profile__field">
-          <span className="center-profile__label">NAME</span>
-          <span className="center-profile__value">{state.name}</span>
-        </div>
-        <div className="center-profile__field">
-          <span className="center-profile__label">POSITION</span>
-          <span className="center-profile__value">{state.position}</span>
-        </div>
-        <div className="center-profile__field">
-          <span className="center-profile__label">DEPARTMENT</span>
-          <span className="center-profile__value">{state.department}</span>
-        </div>
-        <div className="center-profile__field">
-          <span className="center-profile__label">LEVEL</span>
-          <span className="center-profile__value">{state.level}</span>
-        </div>
-        <div className="center-profile__field">
-          <span className="center-profile__label">XP</span>
-          <span className="center-profile__value center-profile__value--primary">{state.xp}</span>
-        </div>
-        <div className="center-profile__field">
-          <span className="center-profile__label">MISSIONS COMPLETED</span>
-          <span className="center-profile__value">{state.completedMissions.length}</span>
-        </div>
-        <div className="center-profile__field">
-          <span className="center-profile__label">DAY</span>
-          <span className="center-profile__value">{state.day}</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ---- Skills View ----
-function SkillsView() {
-  const { state } = useGame();
-  const concepts = state.unlockedConcepts;
-
-  return (
-    <div className="center-skills anim-fade-in">
-      <div className="center-skills__header">AWS KNOWLEDGE</div>
-      {concepts.length === 0 ? (
-        <div className="center-skills__empty">
-          <p>No AWS concepts unlocked yet.</p>
-          <p className="text-dim">Complete missions to discover cloud technologies.</p>
-        </div>
-      ) : (
-        <div className="center-skills__grid">
-          {concepts.map(c => (
-            <div key={c} className="center-skills__item">
-              <span className="center-skills__item-icon">◆</span>
-              <span>{c}</span>
+            <div className="scene-modal-body">
+              <ArchitectureMap />
             </div>
-          ))}
+          </div>
         </div>
+      )}
+
+      {showCoworkerModal && (
+        <CoworkerHintModal
+          gameState={state}
+          onClose={() => setShowCoworkerModal(false)}
+        />
       )}
     </div>
   );
-}
-
-// ---- Achievements View ----
-function AchievementsView() {
-  const { state } = useGame();
-
-  return (
-    <div className="center-achievements anim-fade-in">
-      <div className="center-achievements__header">ACHIEVEMENTS</div>
-      {state.achievements.length === 0 ? (
-        <div className="center-achievements__empty">
-          <p>No achievements yet.</p>
-          <p className="text-dim">Keep solving incidents to earn recognition.</p>
-        </div>
-      ) : (
-        <div className="center-achievements__list">
-          {state.achievements.map(a => (
-            <div key={a} className="center-achievements__item">★ {a}</div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ---- Settings View ----
-function SettingsView() {
-  const { deleteSave } = useGame();
-  const [confirmDelete, setConfirmDelete] = useState(false);
-
-  const handleDelete = () => {
-    if (confirmDelete) {
-      deleteSave();
-      window.location.reload();
-    } else {
-      setConfirmDelete(true);
-      setTimeout(() => setConfirmDelete(false), 3000);
-    }
-  };
-
-  return (
-    <div className="center-settings anim-fade-in">
-      <div className="center-settings__header">SETTINGS</div>
-      <div className="center-settings__section">
-        <div className="center-settings__section-title">SAVE DATA</div>
-        <button className="center-settings__danger-btn" onClick={handleDelete}>
-          {confirmDelete ? 'CONFIRM DELETE — ARE YOU SURE?' : 'DELETE SAVE DATA'}
-        </button>
-        <p className="center-settings__warning">This will permanently erase all progress.</p>
-      </div>
-    </div>
-  );
-}
-
-// ---- Main Center Panel ----
-export default function CenterPanel({ activeView }) {
-  switch (activeView) {
-    case 'mission': return <DialogueView />;
-    case 'profile': return <ProfileView />;
-    case 'skills': return <SkillsView />;
-    case 'achievements': return <AchievementsView />;
-    case 'settings': return <SettingsView />;
-    default: return <DialogueView />;
-  }
 }

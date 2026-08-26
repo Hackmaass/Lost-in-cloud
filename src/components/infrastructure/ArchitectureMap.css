@@ -1,0 +1,330 @@
+/* ============================================
+   LOST IN THE CLOUD — Architecture Map Styles
+   ============================================ */
+
+.arch-map {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-void);
+  position: relative;
+  overflow: hidden;
+}
+
+.arch-map__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-xl);
+  background: var(--surface-panel);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.arch-map__title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.arch-map__icon {
+  color: var(--color-primary);
+  font-size: 1.1rem;
+}
+
+.arch-map__title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--color-white);
+}
+
+.arch-map__health-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  margin-left: var(--space-sm);
+}
+
+.arch-map__health-badge.status-healthy {
+  background: rgba(0, 230, 118, 0.12);
+  color: var(--color-success);
+  border: 1px solid rgba(0, 230, 118, 0.3);
+}
+
+.arch-map__health-badge.status-degraded {
+  background: rgba(255, 179, 71, 0.12);
+  color: var(--color-warning);
+  border: 1px solid rgba(255, 179, 71, 0.3);
+}
+
+.arch-map__health-badge.status-critical {
+  background: rgba(255, 59, 59, 0.15);
+  color: var(--color-danger);
+  border: 1px solid rgba(255, 59, 59, 0.35);
+  animation: pulse 1s infinite;
+}
+
+.arch-map__region-selector {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.arch-map__region-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--color-ash);
+  margin-right: 4px;
+}
+
+.arch-map__region-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  padding: 3px 8px;
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--color-mist);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+
+.arch-map__region-btn--active {
+  background: rgba(0, 212, 255, 0.1);
+  color: var(--color-blue);
+  border-color: rgba(0, 212, 255, 0.3);
+  font-weight: 700;
+}
+
+/* ---- Canvas ---- */
+.arch-map__canvas {
+  flex: 1;
+  padding: var(--space-xl);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.arch-map__row {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.arch-line {
+  background: var(--border-subtle);
+}
+
+.arch-line--vertical {
+  width: 2px;
+  height: 20px;
+  margin: 0 auto;
+}
+
+.arch-line--vertical-short {
+  width: 2px;
+  height: 12px;
+  margin: 0 auto;
+}
+
+/* ---- VPC Box ---- */
+.arch-vpc-box {
+  width: 100%;
+  max-width: 780px;
+  background: rgba(10, 15, 26, 0.6);
+  border: 1px dashed rgba(0, 212, 255, 0.3);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.04);
+}
+
+.arch-vpc-box__header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.arch-vpc-box__tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-blue);
+  letter-spacing: 0.1em;
+}
+
+.arch-vpc-box__region {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--color-ash);
+}
+
+/* ---- Subnet Boxes ---- */
+.arch-subnet-box {
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  background: var(--surface-panel);
+  border: 1px solid var(--border-subtle);
+}
+
+.arch-subnet-box--public {
+  border-left: 3px solid var(--color-success);
+}
+
+.arch-subnet-box--private {
+  border-left: 3px solid var(--color-blue);
+}
+
+.arch-subnet-box__title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-mist);
+  margin-bottom: var(--space-md);
+}
+
+.arch-subnet-tag {
+  font-size: 0.55rem;
+  color: var(--color-ash);
+}
+
+.arch-sg-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  color: var(--color-blue);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.arch-sg-pill:hover {
+  background: rgba(0, 212, 255, 0.2);
+}
+
+.arch-sg-pill--alert {
+  background: rgba(255, 59, 59, 0.15);
+  border-color: rgba(255, 59, 59, 0.4);
+  color: var(--color-danger);
+  animation: pulse 1.2s infinite;
+}
+
+/* ---- Grids ---- */
+.arch-compute-grid,
+.arch-storage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+}
+
+/* ---- Arch Nodes ---- */
+.arch-node {
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.arch-node:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primary);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.arch-node--cloud {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: var(--border-subtle);
+  max-width: 260px;
+  text-align: center;
+  cursor: default;
+}
+
+.arch-node--gateway {
+  max-width: 280px;
+  background: rgba(0, 212, 255, 0.04);
+  border-color: rgba(0, 212, 255, 0.2);
+}
+
+.arch-node--alb {
+  background: rgba(255, 153, 0, 0.04);
+  border-color: rgba(255, 153, 0, 0.25);
+  margin-bottom: var(--space-sm);
+}
+
+.arch-node--stopped {
+  border-color: var(--color-danger);
+  background: rgba(255, 59, 59, 0.06);
+}
+
+.arch-node--degraded {
+  border-color: var(--color-warning);
+  background: rgba(255, 179, 71, 0.06);
+}
+
+.arch-node--critical {
+  border-color: var(--color-danger);
+  background: rgba(255, 59, 59, 0.08);
+  animation: pulse 1.5s infinite;
+}
+
+.arch-node__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-bottom: 3px;
+}
+
+.arch-node__icon {
+  font-size: 1rem;
+}
+
+.arch-node__name {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--color-white);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.arch-node__status {
+  font-size: 0.7rem;
+}
+
+.arch-node__status.status-online { color: var(--color-success); }
+.arch-node__status.status-degraded { color: var(--color-warning); }
+.arch-node__status.status-offline { color: var(--color-danger); }
+
+.arch-node__sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--color-ash);
+  margin-bottom: 6px;
+}
+
+.arch-node__metric {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--color-cloud);
+  font-weight: 500;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 3px 6px;
+  border-radius: var(--radius-sm);
+}

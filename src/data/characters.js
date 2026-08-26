@@ -1,6 +1,8 @@
 /* ============================================
-   LOST IN THE CLOUD — Character Definitions
+   LOST IN THE CLOUD — Character Definitions & Avatars
    ============================================ */
+
+import { CHARACTER_PORTRAITS } from '../assets/visuals/characterAvatars';
 
 export const CHARACTERS = {
   maya: {
@@ -12,6 +14,7 @@ export const CHARACTERS = {
     description: 'Runs Infrastructure Engineering. Assigns missions and evaluates decisions. Appears to know more about Nexora\'s history than she initially reveals.',
     dialogueStyle: 'Direct, measured, deliberate pauses. Says more with silence than words.',
     accentColor: '#00d4ff',
+    renderAvatar: (expression) => CHARACTER_PORTRAITS.maya.avatarSvg(expression),
   },
 
   arjun: {
@@ -23,6 +26,7 @@ export const CHARACTERS = {
     description: 'The player\'s primary technical mentor. Teaches through questions rather than lectures. Technically brilliant with a dry wit.',
     dialogueStyle: 'Sharp, slightly amused, leads with questions. Never explains when he can make you discover.',
     accentColor: '#ff9900',
+    renderAvatar: (expression) => CHARACTER_PORTRAITS.arjun.avatarSvg(expression),
   },
 
   lena: {
@@ -34,6 +38,7 @@ export const CHARACTERS = {
     description: 'Challenges dangerous assumptions. Will eventually introduce security, permissions and risk. Intimidating without being theatrical.',
     dialogueStyle: 'Clipped, precise, skeptical. Asks questions that make you doubt your own answers.',
     accentColor: '#ff3b3b',
+    renderAvatar: (expression) => CHARACTER_PORTRAITS.lena.avatarSvg(expression),
   },
 
   daniel: {
@@ -45,6 +50,7 @@ export const CHARACTERS = {
     description: 'Provides infrastructure context and lighter moments. Energetic and fast-moving, occasionally careless.',
     dialogueStyle: 'Casual, quick, punctuated with humor. Talks fast, sometimes too fast.',
     accentColor: '#00e676',
+    renderAvatar: (expression) => CHARACTER_PORTRAITS.daniel.avatarSvg(expression),
   },
 
   elias: {
@@ -56,6 +62,7 @@ export const CHARACTERS = {
     description: 'Former Nexora engineer who left two years ago. Built most of the original infrastructure. Never appears in person — only through system logs, ghost credentials, and one final message.',
     dialogueStyle: 'Terse, precise, unsettling. Communicates through systems rather than words.',
     accentColor: '#a855f7',
+    renderAvatar: (expression) => CHARACTER_PORTRAITS.elias.avatarSvg(expression),
   },
 
   system: {
@@ -67,6 +74,7 @@ export const CHARACTERS = {
     description: 'System-generated messages, alerts, and notifications.',
     dialogueStyle: 'Formal, mechanical, terse.',
     accentColor: '#5a5a72',
+    renderAvatar: () => CHARACTER_PORTRAITS.system.avatarSvg(),
   },
 };
 

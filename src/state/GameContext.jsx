@@ -80,8 +80,36 @@ export function GameProvider({ children }) {
     dispatch({ type: ACTION_TYPES.ADD_XP, payload: amount });
   }, []);
 
+  const addClubXp = useCallback((amount) => {
+    dispatch({ type: ACTION_TYPES.ADD_CLUB_XP, payload: amount });
+  }, []);
+
+  const registerEvent = useCallback((eventId) => {
+    dispatch({ type: ACTION_TYPES.REGISTER_EVENT, payload: eventId });
+  }, []);
+
+  const unregisterEvent = useCallback((eventId) => {
+    dispatch({ type: ACTION_TYPES.UNREGISTER_EVENT, payload: eventId });
+  }, []);
+
+  const submitChallenge = useCallback((challengeData) => {
+    dispatch({ type: ACTION_TYPES.SUBMIT_CHALLENGE, payload: challengeData });
+  }, []);
+
+  const publishProject = useCallback((projectData) => {
+    dispatch({ type: ACTION_TYPES.PUBLISH_PROJECT, payload: projectData });
+  }, []);
+
+  const unlockAchievement = useCallback((achievementId) => {
+    dispatch({ type: ACTION_TYPES.UNLOCK_ACHIEVEMENT, payload: achievementId });
+  }, []);
+
   const unlockConcept = useCallback((concept) => {
     dispatch({ type: ACTION_TYPES.UNLOCK_CONCEPT, payload: concept });
+  }, []);
+
+  const unlockConcepts = useCallback((concepts) => {
+    dispatch({ type: ACTION_TYPES.UNLOCK_CONCEPTS, payload: concepts });
   }, []);
 
   const addMessage = useCallback((message) => {
@@ -108,6 +136,22 @@ export function GameProvider({ children }) {
     dispatch({ type: ACTION_TYPES.INCREMENT_DAY });
   }, []);
 
+  const setDay = useCallback((day) => {
+    dispatch({ type: ACTION_TYPES.SET_DAY, payload: day });
+  }, []);
+
+  const discoverInfo = useCallback((info) => {
+    dispatch({ type: ACTION_TYPES.DISCOVER_INFO, payload: info });
+  }, []);
+
+  const setMissionRating = useCallback((missionId, ratings) => {
+    dispatch({ type: ACTION_TYPES.SET_MISSION_RATING, payload: { missionId, ratings } });
+  }, []);
+
+  const updateInvestigation = useCallback((data) => {
+    dispatch({ type: ACTION_TYPES.UPDATE_INVESTIGATION, payload: data });
+  }, []);
+
   const hasSave = useCallback(() => SaveManager.hasSave(), []);
 
   const deleteSave = useCallback(() => {
@@ -128,13 +172,24 @@ export function GameProvider({ children }) {
     setStoryFlag,
     setStoryFlags,
     addXp,
+    addClubXp,
+    registerEvent,
+    unregisterEvent,
+    submitChallenge,
+    publishProject,
+    unlockAchievement,
     unlockConcept,
+    unlockConcepts,
     addMessage,
     markMessagesRead,
     addTerminalEntry,
     clearTerminal,
     makeDecision,
     incrementDay,
+    setDay,
+    discoverInfo,
+    setMissionRating,
+    updateInvestigation,
     hasSave,
     deleteSave,
     // Constants

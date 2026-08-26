@@ -1,320 +1,380 @@
 /* ============================================
-   LOST IN THE CLOUD — Landing Page Styles
+   LOST IN THE CLOUD — Game Home CSS
    ============================================ */
 
-.landing {
+.game-home {
   position: relative;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
-  background: var(--color-void);
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-/* ---- Background Layer ---- */
-.landing__bg {
-  position: absolute;
-  inset: 0;
+  background: #05070c;
   overflow: hidden;
+  user-select: none;
 }
 
-/* Network nodes */
-.landing__grid {
+/* Ambient Background */
+.game-home__backdrop {
   position: absolute;
   inset: 0;
-}
-
-.landing__node {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  background: var(--color-blue);
-  border-radius: 50%;
-  opacity: 0.15;
-  animation: floatNode 5s ease-in-out infinite;
-  box-shadow: 0 0 8px rgba(0, 212, 255, 0.3);
-}
-
-.landing__node:nth-child(3n) {
-  background: var(--color-primary);
-  box-shadow: 0 0 8px rgba(255, 153, 0, 0.3);
-  opacity: 0.1;
-}
-
-.landing__node:nth-child(5n) {
-  width: 2px;
-  height: 2px;
-  opacity: 0.08;
-}
-
-/* Scanline effect */
-.landing__scanline {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.03) 2px,
-    rgba(0, 0, 0, 0.03) 4px
-  );
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* Terminal background scroll */
-.landing__terminal-bg {
-  position: absolute;
-  left: 5%;
-  right: 5%;
-  top: 10%;
-  bottom: 10%;
-  overflow: hidden;
-  opacity: 0.04;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  color: var(--color-blue);
   pointer-events: none;
 }
 
-.landing__terminal-scroll {
-  animation: terminalScroll 40s linear infinite;
-}
-
-.landing__log-line {
-  display: flex;
-  gap: 12px;
-  padding: 3px 0;
-  white-space: nowrap;
-}
-
-.landing__log-time {
-  color: var(--color-steel);
-}
-
-.landing__log-text {
-  color: var(--color-blue);
-}
-
-.landing__log-line:nth-child(3n) .landing__log-text {
-  color: var(--color-primary);
-}
-
-/* Vignette */
-.landing__vignette {
+.game-home__grid-lines {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 30%,
-    rgba(5, 5, 8, 0.7) 70%,
-    rgba(5, 5, 8, 0.95) 100%
-  );
-  pointer-events: none;
-  z-index: 3;
+  background-image: 
+    linear-gradient(rgba(0, 212, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
 
-/* ---- Content ---- */
-.landing__content {
+.game-home__glow-orb {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.12) 0%, rgba(255, 153, 0, 0.04) 50%, transparent 80%);
+  filter: blur(40px);
+}
+
+/* Container */
+.game-home__container {
   position: relative;
   z-index: 10;
+  max-width: 680px;
+  width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100%;
-  padding: var(--space-xl);
+  gap: 28px;
+}
+
+/* Brand */
+.game-home__brand {
   text-align: center;
 }
 
-/* Hero */
-.landing__hero {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 1.2s var(--ease-cinematic), transform 1.2s var(--ease-cinematic);
+.game-home__icon {
+  font-size: 2rem;
+  color: var(--color-blue, #00d4ff);
+  margin-bottom: 8px;
+  filter: drop-shadow(0 0 16px rgba(0, 212, 255, 0.6));
 }
 
-.landing__hero--visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Title */
-.landing__title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-  margin-bottom: var(--space-2xl);
-}
-
-.landing__title-line {
-  font-family: 'Outfit', sans-serif;
+.game-home__title {
+  font-family: var(--font-mono, monospace);
+  font-size: 2.2rem;
   font-weight: 900;
-  text-transform: uppercase;
-  line-height: 1;
-  color: var(--color-white);
-  letter-spacing: 0.06em;
+  letter-spacing: 6px;
+  color: var(--color-white, #f0f0f8);
+  margin-bottom: 6px;
 }
 
-.landing__title-line--top {
-  font-size: clamp(2.5rem, 6vw, 5rem);
-  opacity: 0.9;
+.game-home__tagline {
+  font-family: var(--font-sans, system-ui);
+  font-size: 0.95rem;
+  color: var(--color-mist, #8a8aa2);
+  letter-spacing: 1px;
 }
 
-.landing__title-line--bottom {
-  font-size: clamp(3rem, 8vw, 7rem);
-  background: linear-gradient(135deg, var(--color-primary) 0%, #ffcc00 50%, var(--color-primary) 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 4s linear infinite;
-  text-shadow: none;
-  filter: drop-shadow(0 0 40px rgba(255, 153, 0, 0.2));
-}
-
-@keyframes shimmer {
-  0%   { background-position: 200% center; }
-  100% { background-position: -200% center; }
-}
-
-/* Tagline */
-.landing__tagline {
-  font-family: 'Inter', sans-serif;
-  font-weight: 300;
-  font-size: clamp(0.85rem, 1.5vw, 1.1rem);
-  color: var(--color-mist);
-  letter-spacing: 0.04em;
-  line-height: 1.6;
-  max-width: 520px;
-  margin: 0 auto var(--space-3xl);
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 1s var(--ease-cinematic) 0.2s, transform 1s var(--ease-cinematic) 0.2s;
-}
-
-.landing__tagline--visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* CTAs */
-.landing__cta-group {
+/* Primary Career Card */
+.game-home__career-card {
+  width: 100%;
+  background: rgba(14, 18, 28, 0.92);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: var(--radius-lg, 12px);
+  padding: 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 212, 255, 0.1);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: var(--space-md);
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.8s var(--ease-cinematic), transform 0.8s var(--ease-cinematic);
-}
-
-.landing__cta-group--visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.landing__cta {
-  font-family: 'Outfit', sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-  transition: all var(--duration-normal) var(--ease-smooth);
+  gap: 20px;
   position: relative;
   overflow: hidden;
 }
 
-.landing__cta--primary {
-  background: linear-gradient(135deg, var(--color-primary) 0%, #e68a00 100%);
-  color: var(--color-void);
-  font-size: 0.85rem;
-  padding: 16px 48px;
-  border-radius: var(--radius-md);
-  box-shadow: 0 0 30px rgba(255, 153, 0, 0.25), 0 4px 20px rgba(0, 0, 0, 0.4);
-}
-
-.landing__cta--primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 50px rgba(255, 153, 0, 0.4), 0 8px 30px rgba(0, 0, 0, 0.5);
-}
-
-.landing__cta--primary:active {
-  transform: translateY(0);
-}
-
-.landing__cta-text {
-  position: relative;
-  z-index: 1;
-}
-
-.landing__cta-glow {
+.game-home__career-card::before {
+  content: '';
   position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.15) 50%, transparent 100%);
-  transform: translateX(-100%);
-  transition: transform 0.6s var(--ease-smooth);
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00d4ff, #ff9900, transparent);
 }
 
-.landing__cta--primary:hover .landing__cta-glow {
-  transform: translateX(100%);
+.game-home__career-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.landing__cta--secondary {
-  background: transparent;
-  color: var(--color-mist);
+.game-home__badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--color-blue, #00d4ff);
+  background: rgba(0, 212, 255, 0.12);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.game-home__day-badge {
+  font-family: var(--font-mono, monospace);
   font-size: 0.75rem;
-  padding: 10px 32px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-default);
+  font-weight: 700;
+  color: #ff9900;
 }
 
-.landing__cta--secondary:hover {
-  color: var(--color-white);
-  border-color: var(--color-primary);
-  background: rgba(255, 153, 0, 0.05);
+.game-home__mission-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-/* Footer */
-.landing__footer {
-  position: absolute;
-  bottom: var(--space-xl);
-  opacity: 0;
-  transition: opacity 0.8s var(--ease-cinematic);
+.game-home__act-title {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  color: var(--color-ash, #5a5a72);
+  letter-spacing: 1.5px;
 }
 
-.landing__footer--visible {
-  opacity: 1;
+.game-home__mission-title {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-white, #f0f0f8);
+  letter-spacing: 0.5px;
 }
 
-.landing__footer-link {
-  font-family: 'JetBrains Mono', monospace;
+.game-home__mission-desc {
+  font-family: var(--font-sans, system-ui);
+  font-size: 0.9rem;
+  color: var(--color-cloud, #b8b8cc);
+  line-height: 1.45;
+  margin-top: 4px;
+}
+
+.game-home__primary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  background: #00d4ff;
+  color: #040810;
+  border: none;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  padding: 16px;
+  border-radius: var(--radius-md, 8px);
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.game-home__primary-btn:hover {
+  background: #38bdf8;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 212, 255, 0.6);
+}
+
+.game-home__btn-arrow {
+  font-size: 1.2rem;
+  transition: transform 0.2s ease;
+}
+
+.game-home__primary-btn:hover .game-home__btn-arrow {
+  transform: translateX(4px);
+}
+
+/* Sub Grid */
+.game-home__sub-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+}
+
+.game-home__sub-card {
+  background: rgba(14, 18, 28, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md, 8px);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.game-home__sub-card--club {
+  cursor: pointer;
+  border-color: rgba(255, 153, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.game-home__sub-card--club:hover {
+  background: rgba(255, 153, 0, 0.08);
+  border-color: #ff9900;
+  transform: translateY(-2px);
+}
+
+.game-home__sub-card-label {
+  font-family: var(--font-mono, monospace);
   font-size: 0.65rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--color-steel);
-  transition: color var(--duration-fast) var(--ease-smooth);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--color-mist, #8a8aa2);
 }
 
-.landing__footer-link:hover {
-  color: var(--color-primary);
+.game-home__sub-card-val {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-white, #f0f0f8);
 }
 
-/* ---- Responsive ---- */
-@media (max-width: 768px) {
-  .landing__title-line--top {
-    font-size: 2rem;
-  }
-  .landing__title-line--bottom {
-    font-size: 2.8rem;
-  }
-  .landing__cta--primary {
-    padding: 14px 36px;
-    font-size: 0.8rem;
-  }
+.game-home__sub-card-sub {
+  font-family: var(--font-sans, system-ui);
+  font-size: 0.75rem;
+  color: var(--color-ash, #5a5a72);
+}
+
+/* Demo Launcher */
+.game-home__footer {
+  margin-top: 8px;
+}
+
+.game-home__demo-btn {
+  background: transparent;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  color: var(--color-mist, #8a8aa2);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.game-home__demo-btn:hover {
+  border-color: #00d4ff;
+  color: #00d4ff;
+}
+
+/* Demo Modal */
+.game-home-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 5, 10, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.game-home-modal {
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  background: #0d111a;
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: var(--radius-lg, 12px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 24px 72px rgba(0, 0, 0, 0.85);
+}
+
+.game-home-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: #080c14;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.game-home-modal__header h3 {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--color-white, #f0f0f8);
+}
+
+.game-home-modal__close {
+  background: transparent;
+  border: none;
+  color: var(--color-ash, #5a5a72);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.game-home-modal__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.demo-mission-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.demo-mission-item:hover {
+  background: rgba(0, 212, 255, 0.08);
+  border-color: #00d4ff;
+  transform: translateX(4px);
+}
+
+.demo-mission-item__num {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #ff9900;
+}
+
+.demo-mission-item__info {
+  flex: 1;
+}
+
+.demo-mission-item__title {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-white, #f0f0f8);
+}
+
+.demo-mission-item__desc {
+  font-family: var(--font-sans, system-ui);
+  font-size: 0.75rem;
+  color: var(--color-mist, #8a8aa2);
+}
+
+.demo-mission-item__action {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #00d4ff;
 }

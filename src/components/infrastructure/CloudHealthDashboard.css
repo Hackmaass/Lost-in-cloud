@@ -1,0 +1,266 @@
+/* ============================================
+   LOST IN THE CLOUD — Cloud Health Dashboard Styles
+   ============================================ */
+
+.cloud-dash {
+  padding: var(--space-xl) var(--space-2xl);
+  height: 100%;
+  overflow-y: auto;
+  background: var(--color-void);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.cloud-dash__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: var(--space-md);
+}
+
+.cloud-dash__tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--color-primary);
+}
+
+.cloud-dash__title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--color-white);
+  margin-top: 2px;
+}
+
+.cloud-dash__region-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--color-blue);
+  background: rgba(0, 212, 255, 0.08);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.cloud-dash__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-xl);
+}
+
+/* ---- Dash Cards ---- */
+.dash-card {
+  background: var(--surface-panel);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.dash-card--full {
+  width: 100%;
+}
+
+.dash-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.dash-card__title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--color-white);
+}
+
+.dash-card__sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--color-ash);
+}
+
+.dash-card__badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+/* ---- Health Grid ---- */
+.dash-health-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.dash-health-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: var(--surface-elevated);
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+.dash-health-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dash-health-dot.status-online { background: var(--color-success); box-shadow: 0 0 6px rgba(0, 230, 118, 0.5); }
+.dash-health-dot.status-degraded { background: var(--color-warning); box-shadow: 0 0 6px rgba(255, 179, 71, 0.5); }
+.dash-health-dot.status-high_latency { background: var(--color-warning); }
+.dash-health-dot.status-offline,
+.dash-health-dot.status-critical { background: var(--color-danger); box-shadow: 0 0 6px rgba(255, 59, 59, 0.5); animation: pulse 1s infinite; }
+.dash-health-dot.status-alert { background: var(--color-danger); animation: pulse 1s infinite; }
+
+.dash-health-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--color-cloud);
+  flex: 1;
+}
+
+.dash-health-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+}
+
+.dash-health-val.status-online { color: var(--color-success); }
+.dash-health-val.status-degraded { color: var(--color-warning); }
+.dash-health-val.status-offline,
+.dash-health-val.status-critical { color: var(--color-danger); }
+.dash-health-val.status-alert { color: var(--color-danger); }
+
+/* ---- Alerts Box ---- */
+.dash-alerts-box {
+  background: rgba(255, 59, 59, 0.06);
+  border: 1px solid rgba(255, 59, 59, 0.25);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+}
+
+.dash-alerts-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--color-danger);
+  margin-bottom: 6px;
+}
+
+.dash-alert-item {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--color-light);
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
+.dash-alert-level {
+  font-weight: 700;
+}
+
+.dash-alert-item.alert--critical .dash-alert-level { color: var(--color-danger); }
+.dash-alert-item.alert--warning .dash-alert-level { color: var(--color-warning); }
+
+/* ---- Cost Breakdown ---- */
+.dash-cost-total {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--color-primary);
+}
+
+.dash-cost-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.dash-cost-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: var(--color-cloud);
+}
+
+.dash-cost-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.dash-cost-bar {
+  height: 4px;
+  background: var(--surface-elevated);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: var(--space-xs);
+}
+
+.dash-cost-bar__fill {
+  height: 100%;
+  background: var(--color-primary);
+}
+
+/* ---- Log Stream ---- */
+.dash-log-stream {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  max-height: 250px;
+  overflow-y: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dash-log-line {
+  display: flex;
+  gap: var(--space-sm);
+  line-height: 1.4;
+}
+
+.dash-log-time {
+  color: var(--color-steel);
+  flex-shrink: 0;
+}
+
+.dash-log-level {
+  font-weight: 700;
+  flex-shrink: 0;
+  width: 65px;
+}
+
+.dash-log-level.level--info { color: var(--color-blue); }
+.dash-log-level.level--warn { color: var(--color-warning); }
+.dash-log-level.level--error { color: var(--color-danger); }
+.dash-log-level.level--critical { color: var(--color-danger); font-weight: 900; }
+.dash-log-level.level--security { color: #c084fc; }
+
+.dash-log-src {
+  color: var(--color-ash);
+  flex-shrink: 0;
+}
+
+.dash-log-msg {
+  color: var(--color-mist);
+  word-break: break-word;
+}

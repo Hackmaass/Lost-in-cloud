@@ -1,0 +1,188 @@
+/* ============================================
+   LOST IN THE CLOUD — Incident Card CSS
+   ============================================ */
+
+.incident-card {
+  max-width: 680px;
+  width: 90%;
+  margin: 0 auto;
+  background: rgba(18, 12, 16, 0.94);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 59, 59, 0.35);
+  border-radius: var(--radius-lg, 12px);
+  padding: 32px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7), 0 0 40px rgba(255, 59, 59, 0.15);
+  position: relative;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.incident-card--warning {
+  background: rgba(20, 16, 10, 0.94);
+  border-color: rgba(255, 179, 71, 0.35);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7), 0 0 40px rgba(255, 179, 71, 0.15);
+}
+
+.incident-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #ff3b3b, #ff9900, #ff3b3b);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite linear;
+}
+
+.incident-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.incident-card__badge-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.incident-card__badge--alert {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 59, 59, 0.18);
+  border: 1px solid rgba(255, 59, 59, 0.4);
+  color: #ff5252;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.incident-card__pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff3b3b;
+  box-shadow: 0 0 8px #ff3b3b;
+  animation: pulse-glow 1.5s infinite ease-in-out;
+}
+
+.incident-card__id {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8rem;
+  color: var(--color-mist, #8a8aa2);
+  font-weight: 600;
+}
+
+.incident-card__time {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  color: var(--color-ash, #5a5a72);
+}
+
+.incident-card__title {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--color-white, #f0f0f8);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.incident-card__summary {
+  font-family: var(--font-sans, system-ui);
+  font-size: 1rem;
+  color: var(--color-cloud, #b8b8cc);
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.incident-card__divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 18px 0;
+}
+
+.incident-card__section-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--color-mist, #8a8aa2);
+  margin-bottom: 12px;
+}
+
+.incident-card__facts-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.incident-card__fact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: var(--font-sans, system-ui);
+  font-size: 0.9rem;
+  color: var(--color-light, #e0e0ee);
+  line-height: 1.4;
+}
+
+.incident-card__fact-bullet {
+  color: #ff3b3b;
+  font-size: 0.65rem;
+  margin-top: 4px;
+}
+
+.incident-card__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.incident-card__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 12px 24px;
+  border-radius: var(--radius-md, 8px);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border: none;
+}
+
+.incident-card__btn--primary {
+  background: #ff3b3b;
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(255, 59, 59, 0.35);
+}
+
+.incident-card__btn--primary:hover {
+  background: #ff5252;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(255, 59, 59, 0.5);
+}
+
+.incident-card__btn--secondary {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--color-light, #e0e0ee);
+}
+
+.incident-card__btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
