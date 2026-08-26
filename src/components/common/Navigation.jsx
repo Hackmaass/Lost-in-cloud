@@ -1,15 +1,14 @@
 /* ============================================
    LOST IN THE CLOUD — Minimal Gameplay HUD
-   Unobtrusive contextual top bar.
+   Pure investigation game header.
    ============================================ */
 
 import React from 'react';
 import { useGame } from '../../state/GameContext';
 import StoryEngine from '../../engine/StoryEngine';
-import GAME_CONFIG from '../../data/config';
 import './Navigation.css';
 
-export default function Navigation({ onOpenHome, onOpenClub, onOpenComms, onOpenProfile, isClubActive = false }) {
+export default function Navigation({ onOpenHome, onOpenComms, onOpenProfile }) {
   const { state } = useGame();
   const currentMission = StoryEngine.getCurrentMission(state);
 
@@ -40,7 +39,7 @@ export default function Navigation({ onOpenHome, onOpenClub, onOpenComms, onOpen
         )}
       </div>
 
-      {/* Contextual Actions (Comms, Cloud Club, Profile) */}
+      {/* Contextual Actions (Pager & Profile) */}
       <div className="game-hud__right">
         {/* Comms / Pager Alert Button */}
         <button
@@ -55,20 +54,10 @@ export default function Navigation({ onOpenHome, onOpenClub, onOpenComms, onOpen
           )}
         </button>
 
-        {/* Decoupled AWS Cloud Club Toggle */}
-        <button
-          className={`game-hud__action-btn ${isClubActive ? 'game-hud__action-btn--active' : ''}`}
-          onClick={onOpenClub}
-          title="AWS Cloud Club Community"
-        >
-          <span className="game-hud__btn-icon">☁</span>
-          <span className="game-hud__btn-text">CLOUD CLUB</span>
-        </button>
-
-        {/* Engineer Profile Chip */}
-        <button className="game-hud__player-chip" onClick={onOpenProfile} title="Engineer Career Record">
+        {/* Engineer Personnel Dossier */}
+        <button className="game-hud__player-chip" onClick={onOpenProfile} title="Engineer Personnel Dossier">
           <div className="game-hud__avatar-dot" />
-          <span className="game-hud__player-name">{state.displayName || state.name || 'Engineer'}</span>
+          <span className="game-hud__player-name">{state.displayName || state.name || 'Junior Cloud Engineer'}</span>
         </button>
       </div>
     </header>

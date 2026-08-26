@@ -1,7 +1,7 @@
 /* ============================================
    LOST IN THE CLOUD — Game Home
-   Minimalist narrative game home screen.
-   Benchmark: Lost at SQL UX philosophy.
+   Minimalist narrative game gateway.
+   Inspired by Lost at SQL UX philosophy.
    ============================================ */
 
 import React, { useState } from 'react';
@@ -25,18 +25,6 @@ export default function LandingPage() {
     } else {
       setGamePhase(GAME_PHASES.GAMEPLAY);
     }
-  };
-
-  const handleOpenClub = () => {
-    AudioManager.play('ui_click');
-    if (!state.name) {
-      // Create default profile if not set
-      dispatch({
-        type: 'SET_PLAYER_IDENTITY',
-        payload: { name: 'Omkar Rane', displayName: 'Omkar' },
-      });
-    }
-    setGamePhase(GAME_PHASES.GAMEPLAY);
   };
 
   const handleLaunchDemoMission = (mission) => {
@@ -66,7 +54,6 @@ export default function LandingPage() {
         completedScenes: [],
         storyFlags: ['orientation_done', 'met_team'],
         xp: mIdx * 200 + 100,
-        clubXp: 450,
       },
     });
 
@@ -81,24 +68,24 @@ export default function LandingPage() {
         <div className="game-home__glow-orb" />
       </div>
 
-      {/* Main Home Hub */}
+      {/* Main Game Card Container */}
       <div className="game-home__container anim-fade-in">
-        {/* Title */}
+        {/* Brand */}
         <div className="game-home__brand">
           <div className="game-home__icon">◈</div>
           <h1 className="game-home__title">LOST IN THE CLOUD</h1>
-          <p className="game-home__tagline">A Narrative Cloud Engineering Investigation</p>
+          <p className="game-home__tagline">The Interactive AWS Cloud Engineering Investigation Game</p>
         </div>
 
-        {/* Primary Action Card: CONTINUE CAREER */}
+        {/* Primary Mission Card */}
         <div className="game-home__career-card">
           <div className="game-home__career-header">
-            <span className="game-home__badge">ACTIVE MISSION</span>
+            <span className="game-home__badge">ASSIGNED INCIDENT</span>
             <span className="game-home__day-badge">DAY 0{state.day || currentMission.day || 1}</span>
           </div>
 
           <div className="game-home__mission-info">
-            <div className="game-home__act-title">ACT I: THE FIRST WEEK</div>
+            <div className="game-home__act-title">ACT I: THE FIRST WEEK AT NEXORA</div>
             <h2 className="game-home__mission-title">
               MISSION 0{currentMission.number || '01'} — {currentMission.title}
             </h2>
@@ -107,34 +94,25 @@ export default function LandingPage() {
 
           <button className="game-home__primary-btn" onClick={handleContinueCareer}>
             <span className="game-home__btn-text">
-              {state.name ? 'CONTINUE CAREER' : 'BEGIN CAREER'}
+              {state.name ? 'CONTINUE INVESTIGATION' : 'PLAY AS JUNIOR CLOUD ENGINEER'}
             </span>
             <span className="game-home__btn-arrow">→</span>
           </button>
         </div>
 
-        {/* Career & Club Sub-cards */}
+        {/* Engineer Clearance & Mission Switcher */}
         <div className="game-home__sub-grid">
-          {/* Career Identity */}
           <div className="game-home__sub-card">
-            <div className="game-home__sub-card-label">CURRENT ROLE</div>
+            <div className="game-home__sub-card-label">ASSIGNED ROLE</div>
             <div className="game-home__sub-card-val">Junior Cloud Engineer</div>
-            <div className="game-home__sub-card-sub">Nexora Systems // Infrastructure</div>
+            <div className="game-home__sub-card-sub">Nexora Systems // Infrastructure Team</div>
           </div>
 
-          {/* Decoupled Cloud Club */}
-          <div className="game-home__sub-card game-home__sub-card--club" onClick={handleOpenClub}>
-            <div className="game-home__sub-card-label">AWS CLOUD CLUB</div>
-            <div className="game-home__sub-card-val">3 Active Challenges</div>
-            <div className="game-home__sub-card-sub">Events • Projects • Leaderboard →</div>
+          <div className="game-home__sub-card game-home__sub-card--clickable" onClick={() => setShowDemoModal(true)}>
+            <div className="game-home__sub-card-label">MISSION SELECTOR</div>
+            <div className="game-home__sub-card-val">10 Act I Missions</div>
+            <div className="game-home__sub-card-sub">Jump to any incident investigation →</div>
           </div>
-        </div>
-
-        {/* Demo Mission Fast-Launcher */}
-        <div className="game-home__footer">
-          <button className="game-home__demo-btn" onClick={() => setShowDemoModal(true)}>
-            <span>⚡ Jump to Any Mission (Demo Launcher)</span>
-          </button>
         </div>
       </div>
 
@@ -143,7 +121,7 @@ export default function LandingPage() {
         <div className="game-home-modal-backdrop" onClick={() => setShowDemoModal(false)}>
           <div className="game-home-modal anim-fade-in" onClick={e => e.stopPropagation()}>
             <div className="game-home-modal__header">
-              <h3>SELECT DEMO MISSION (ACT I)</h3>
+              <h3>SELECT INVESTIGATION INCIDENT</h3>
               <button className="game-home-modal__close" onClick={() => setShowDemoModal(false)}>✕</button>
             </div>
             <div className="game-home-modal__body">
@@ -158,7 +136,7 @@ export default function LandingPage() {
                     <div className="demo-mission-item__title">{m.title}</div>
                     <div className="demo-mission-item__desc">{m.description}</div>
                   </div>
-                  <div className="demo-mission-item__action">LAUNCH →</div>
+                  <div className="demo-mission-item__action">PLAY →</div>
                 </div>
               ))}
             </div>

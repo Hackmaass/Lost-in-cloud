@@ -1,6 +1,6 @@
 /* ============================================
    LOST IN THE CLOUD — Game Workspace
-   Contextual gameplay container without permanent dashboard clutter.
+   Pure narrative cloud engineering investigation stage.
    ============================================ */
 
 import React, { useState } from 'react';
@@ -8,23 +8,17 @@ import { useGame } from '../state/GameContext';
 import { GAME_PHASES } from '../state/playerReducer';
 import Navigation from '../components/common/Navigation';
 import CenterPanel from '../components/workspace/CenterPanel';
-import ClubHome from '../components/club/ClubHome';
 import PlayerProfile from '../components/profile/PlayerProfile';
 import { getCharacter } from '../data/characters';
 import './GameWorkspace.css';
 
 export default function GameWorkspace() {
   const { state, setGamePhase, markMessagesRead } = useGame();
-  const [activeMode, setActiveMode] = useState('story'); // 'story' | 'club'
   const [showComms, setShowComms] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
 
   const handleOpenHome = () => {
     setGamePhase(GAME_PHASES.LANDING);
-  };
-
-  const handleToggleClub = () => {
-    setActiveMode(prev => prev === 'club' ? 'story' : 'club');
   };
 
   const handleOpenComms = () => {
@@ -37,26 +31,13 @@ export default function GameWorkspace() {
       {/* Minimal Top HUD */}
       <Navigation
         onOpenHome={handleOpenHome}
-        onOpenClub={handleToggleClub}
         onOpenComms={handleOpenComms}
         onOpenProfile={() => setShowProfile(true)}
-        isClubActive={activeMode === 'club'}
       />
 
-      {/* Main Viewport Stage */}
+      {/* Main Narrative & Investigation Viewport Stage */}
       <main className="game-viewport">
-        {activeMode === 'story' ? (
-          <CenterPanel />
-        ) : (
-          <div className="decoupled-club-container anim-fade-in">
-            <div className="decoupled-club-header">
-              <button className="decoupled-club-back-btn" onClick={() => setActiveMode('story')}>
-                ← RETURN TO CAREER
-              </button>
-            </div>
-            <ClubHome />
-          </div>
-        )}
+        <CenterPanel />
       </main>
 
       {/* Narrative Pager / Communications Modal */}
@@ -92,7 +73,7 @@ export default function GameWorkspace() {
               ) : (
                 <div className="comms-empty-state">
                   <span className="comms-empty-icon">◈</span>
-                  <p>No new urgent transmissions on the network.</p>
+                  <p>No new transmissions on the internal network.</p>
                 </div>
               )}
             </div>
@@ -100,7 +81,7 @@ export default function GameWorkspace() {
         </div>
       )}
 
-      {/* Player Career Profile Modal */}
+      {/* Player Career Profile Dossier Modal */}
       {showProfile && (
         <div className="profile-modal-backdrop" onClick={() => setShowProfile(false)}>
           <div className="profile-modal anim-fade-in" onClick={e => e.stopPropagation()}>

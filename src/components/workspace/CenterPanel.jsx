@@ -1,12 +1,9 @@
 /* ============================================
    LOST IN THE CLOUD — Unified Scene & Investigation Stage
-   Full-screen contextual narrative experience:
-   - Dynamic Environment Backdrops
-   - Illustrated Character Portraits & Atmospheric Dialogue
-   - Incident Briefings
-   - Nexora Cloud Console Investigation
-   - Contextual Architecture Topologies & Coworker Clues
-   - Performance Debriefs
+   Lost at SQL Benchmark:
+   - Fullscreen Dialogue / Narrative Scenes
+   - Side-by-Side Incident & Console Investigation Workbench
+   - Immediate Story Progression upon Command Execution
    ============================================ */
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
@@ -38,12 +35,12 @@ export default function CenterPanel() {
   } = useGame();
 
   const scene = StoryEngine.getCurrentScene(state);
+  const currentMission = StoryEngine.getCurrentMission(state);
   const [dialogueIndex, setDialogueIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [showArchModal, setShowArchModal] = useState(false);
   const [showCoworkerModal, setShowCoworkerModal] = useState(false);
-  const [consoleExpanded, setConsoleExpanded] = useState(false);
 
   // Dynamic dialogue resolution
   const dialogueList = useMemo(() => {
@@ -116,7 +113,7 @@ export default function CenterPanel() {
         clearInterval(interval);
         setIsTyping(false);
       }
-    }, 22);
+    }, 20);
 
     return () => clearInterval(interval);
   }, [scene, dialogueIndex, dialogueList]);
@@ -154,11 +151,13 @@ export default function CenterPanel() {
         <div className="scene-empty-card">
           <div className="scene-empty-card__icon">◈</div>
           <h2>NEXORA SYSTEMS</h2>
-          <p>All scheduled operations completed for today.</p>
+          <p>All scheduled investigations completed for today.</p>
         </div>
       </div>
     );
   }
+
+  const isInvestigationMode = scene.type === 'terminal_task' || scene.type === 'learning';
 
   return (
     <div className="scene-stage">
@@ -168,9 +167,10 @@ export default function CenterPanel() {
         <div className="scene-stage__backdrop-overlay" />
       </div>
 
-      {/* 2. Primary Scene Content Container */}
-      <div className="scene-stage__content-container">
-        {/* ---- A. DIALOGUE SCENE ---- */}
+      {/* 2. Main Narrative & Investigation Viewport */}
+      <div className={`scene-stage__content-container ${isInvestigationMode ? 'scene-stage__content-container--split' : ''}`}>
+        
+        {/* ---- CASE A: PURE DIALOGUE SCENE (Full stage) ---- */}
         {scene.type === 'dialogue' && (
           <div className="scene-dialogue-view" onClick={handleAdvanceDialogue}>
             {(() => {
@@ -196,7 +196,7 @@ export default function CenterPanel() {
                       <span className="scene-bubble-name" style={{ color: character?.accentColor }}>
                         {character?.name.toUpperCase()}
                       </span>
-                      <span className="scene-bubble-title">{character?.title}</span>
+                      <span className="scene-bubble-title">{character?.title} // {character?.department}</span>
                     </div>
 
                     <p className="scene-bubble-text">
@@ -206,7 +206,7 @@ export default function CenterPanel() {
 
                     <div className="scene-bubble-footer">
                       <span className="scene-bubble-tip">
-                        {isTyping ? 'Click to show text' : 'Click anywhere to continue'}
+                        {isTyping ? 'Click to skip typing' : 'Click anywhere to continue →'}
                       </span>
                       <button className="scene-bubble-btn" onClick={e => { e.stopPropagation(); handleAdvanceDialogue(); }}>
                         CONTINUE →
@@ -219,11 +219,11 @@ export default function CenterPanel() {
           </div>
         )}
 
-        {/* ---- B. NARRATIVE SCENE ---- */}
+        {/* ---- CASE B: NARRATIVE ORIENTATION (Full stage) ---- */}
         {scene.type === 'narrative' && (
           <div className="scene-narrative-view anim-fade-in">
             <div className="scene-narrative-card">
-              <div className="scene-narrative-card__badge">ORIENTATION</div>
+              <div className="scene-narrative-card__badge">ORIENTATION // NEXORA SYSTEMS</div>
               <div className="scene-narrative-card__body">
                 {scene.text?.map((paragraph, idx) => (
                   <p key={idx} className="scene-narrative-paragraph">{paragraph}</p>
@@ -238,7 +238,7 @@ export default function CenterPanel() {
           </div>
         )}
 
-        {/* ---- C. ALERT / INCIDENT SCENE ---- */}
+        {/* ---- CASE C: LIVE INCIDENT ALERT (Full stage) ---- */}
         {scene.type === 'alert' && (
           <div className="scene-alert-view anim-fade-in">
             <IncidentCard
@@ -252,48 +252,63 @@ export default function CenterPanel() {
           </div>
         )}
 
-        {/* ---- D. TERMINAL TASK / INVESTIGATION SCENE ---- */}
-        {scene.type === 'terminal_task' && (
-          <div className="scene-investigation-view anim-fade-in">
-            {/* Top Context Bar */}
-            <div className="scene-investigation-bar">
-              <div className="scene-investigation-bar__objective">
-                <span className="scene-investigation-bar__icon">⚡</span>
-                <span className="scene-investigation-bar__text">
-                  COMMAND OBJECTIVE: Type <code>{scene.requiredCommand}</code>
-                </span>
-              </div>
+        {/* ---- CASE D: LOST AT SQL STYLE SPLIT INVESTIGATION (Left: Story/Briefing, Right: Console) ---- */}
+        {isInvestigationMode && (
+          <div className="split-investigation-layout anim-fade-in">
+            {/* Left Column: Story, Briefing, Facts & Coworker Guidance */}
+            <div className="split-investigation__left">
+              <div className="investigation-briefing-card">
+                <div className="investigation-briefing__header">
+                  <span className="investigation-briefing__badge">ACTIVE INVESTIGATION</span>
+                  <span className="investigation-briefing__day">DAY 0{state.day || 1}</span>
+                </div>
 
-              <div className="scene-investigation-bar__tools">
-                <button
-                  className="scene-tool-btn"
-                  onClick={() => setShowArchModal(true)}
-                  title="Inspect Architecture Map"
-                >
-                  <span>🗺 Architecture</span>
-                </button>
-                <button
-                  className="scene-tool-btn scene-tool-btn--coworker"
-                  onClick={() => setShowCoworkerModal(true)}
-                  title="Ask Arjun for a clue"
-                >
-                  <span>💬 Ask Arjun</span>
-                </button>
+                <h3 className="investigation-briefing__title">
+                  {currentMission?.title || 'PRODUCTION INVESTIGATION'}
+                </h3>
+
+                {/* Directive */}
+                <div className="investigation-briefing__goal">
+                  <div className="investigation-briefing__speaker">DIRECTIVE // MAYA CHEN:</div>
+                  <p className="investigation-briefing__prompt">
+                    {scene.description || (scene.concept ? `Learn ${scene.concept} and inspect resources.` : 'Investigate the anomaly using Nexora Cloud Console commands.')}
+                  </p>
+                </div>
+
+                {/* Helpful Instruction / Target */}
+                {scene.requiredCommand && (
+                  <div className="investigation-briefing__target">
+                    <span className="investigation-target-label">SUGGESTED COMMAND:</span>
+                    <code>&gt; {scene.requiredCommand}</code>
+                  </div>
+                )}
+
+                {/* Tools Toolbar */}
+                <div className="investigation-briefing__tools">
+                  <button
+                    className="investigation-tool-btn"
+                    onClick={() => setShowArchModal(true)}
+                  >
+                    <span>🗺 Architecture Map</span>
+                  </button>
+                  <button
+                    className="investigation-tool-btn investigation-tool-btn--coworker"
+                    onClick={() => setShowCoworkerModal(true)}
+                  >
+                    <span>💬 Ask Arjun for Hint</span>
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* Cloud Console Workbench */}
-            <div className="scene-investigation-terminal">
-              <CloudTerminal
-                isStandalone={false}
-                isExpanded={consoleExpanded}
-                onToggleExpand={() => setConsoleExpanded(prev => !prev)}
-              />
+            {/* Right Column: Nexora Cloud Console */}
+            <div className="split-investigation__right">
+              <CloudTerminal isStandalone={false} />
             </div>
           </div>
         )}
 
-        {/* ---- E. EVIDENCE REVEAL SCENE ---- */}
+        {/* ---- CASE E: EVIDENCE REVEAL SCENE ---- */}
         {scene.type === 'evidence' && (
           <div className="scene-evidence-view anim-fade-in">
             {(() => {
@@ -314,7 +329,7 @@ export default function CenterPanel() {
 
                   <div className="scene-evidence-actions">
                     <button className="scene-btn scene-btn--primary" onClick={handleSceneComplete}>
-                      LOG EVIDENCE & CONTINUE →
+                      LOG EVIDENCE & CONTINUE STORY →
                     </button>
                   </div>
                 </div>
@@ -323,11 +338,11 @@ export default function CenterPanel() {
           </div>
         )}
 
-        {/* ---- F. DEBRIEF / MISSION COMPLETE SCENE ---- */}
+        {/* ---- CASE F: DEBRIEF / MISSION COMPLETE SCENE ---- */}
         {(scene.type === 'debrief' || scene.type === 'mission_complete') && (
           <div className="scene-debrief-view anim-fade-in">
             <div className="scene-debrief-card">
-              <div className="scene-debrief-card__badge">MISSION RESOLVED</div>
+              <div className="scene-debrief-card__badge">INCIDENT RESOLVED</div>
               <h2 className="scene-debrief-title">{scene.title || 'MISSION COMPLETE'}</h2>
               <p className="scene-debrief-subtitle">{scene.subtitle}</p>
 
@@ -355,7 +370,7 @@ export default function CenterPanel() {
 
               <div className="scene-debrief-actions">
                 <button className="scene-btn scene-btn--primary" onClick={handleSceneComplete}>
-                  CONTINUE CAREER →
+                  NEXT DAY / MISSION →
                 </button>
               </div>
             </div>
@@ -363,12 +378,12 @@ export default function CenterPanel() {
         )}
       </div>
 
-      {/* 3. Modals & Sidecars */}
+      {/* 3. Architecture Modal */}
       {showArchModal && (
         <div className="scene-modal-backdrop" onClick={() => setShowArchModal(false)}>
           <div className="scene-modal-dialog" onClick={e => e.stopPropagation()}>
             <div className="scene-modal-header">
-              <h3>NEXORA TOPOLOGY ARCHITECTURE</h3>
+              <h3>NEXORA CLOUD ARCHITECTURE TOPOLOGY</h3>
               <button className="scene-modal-close" onClick={() => setShowArchModal(false)}>✕</button>
             </div>
             <div className="scene-modal-body">
@@ -378,6 +393,7 @@ export default function CenterPanel() {
         </div>
       )}
 
+      {/* 4. Coworker Hint Modal */}
       {showCoworkerModal && (
         <CoworkerHintModal
           gameState={state}
